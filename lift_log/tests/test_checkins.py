@@ -50,6 +50,39 @@ class TestCheckins(LiftLogTestCase):
 		with self.assertRaises(frappe.ValidationError):
 			checkins.save(week=13, checkin_date="2026-10-11", weight_kg=72)
 
+	def test_set_photo_only_accepts_own_private_upload(self):
+		saved = checkins.save(week=4, checkin_date="2026-11-01", weight_kg=72)
+		frappe.set_user(USER_A)
+		mine = frappe.get_doc(
+			{
+				"doctype": "File",
+				"file_name": "progress.txt",
+				"content": b"not really a jpeg",
+				"is_private": 1,
+				"attached_to_doctype": "LL Check In",
+				"attached_to_name": saved["name"],
+			}
+		).insert(ignore_permissions=True)
+		out = checkins.set_photo(week=4, file_url=mine.file_url)
+		self.assertEqual(out["photo"], mine.file_url)
+		self.assertTrue(out["photo"].startswith("/private/files/"))
+
+		public = frappe.get_doc(
+			{
+				"doctype": "File",
+				"file_name": "public.txt",
+				"content": b"x",
+				"is_private": 0,
+				"attached_to_doctype": "LL Check In",
+				"attached_to_name": saved["name"],
+			}
+		).insert(ignore_permissions=True)
+		with self.assertRaises(frappe.PermissionError):
+			checkins.set_photo(week=4, file_url=public.file_url)
+		frappe.set_user(USER_B)
+		with self.assertRaises(frappe.ValidationError):
+			checkins.set_photo(week=4, file_url=mine.file_url)
+
 	def test_isolation(self):
 		checkins.save(week=1, checkin_date="2026-10-11", weight_kg=72)
 		frappe.set_user(USER_B)

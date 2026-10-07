@@ -97,3 +97,26 @@ def save(
 	)
 	doc.save()
 	return checkin_dict(doc)
+
+
+@frappe.whitelist(methods=["POST"])
+def set_photo(week: int, file_url: str) -> dict:
+	"""After `upload_file` (is_private=1, doctype=LL Check In, docname=<name>), store the photo on the check-in.
+	Only a private file the user uploaded to their own check-in is accepted."""
+	user = current_user()
+	program, _definition = program_and_definition(get_profile(user))
+	name = frappe.db.get_value("LL Check In", {"user": user, "program": program, "week": cint(week)}, "name")
+	if not name:
+		frappe.throw(_("Save the check-in first."))
+	file = frappe.db.get_value(
+		"File",
+		{"file_url": file_url, "attached_to_doctype": "LL Check In", "attached_to_name": name, "owner": user},
+		["name", "is_private"],
+		as_dict=True,
+	)
+	if not file or not file.is_private:
+		frappe.throw(_("That photo wasn't uploaded to this check-in."), frappe.PermissionError)
+	doc = frappe.get_doc("LL Check In", name)
+	doc.photo = file_url
+	doc.save()
+	return checkin_dict(doc)
