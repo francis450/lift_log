@@ -154,8 +154,11 @@ def profile_dict(doc, with_program: bool = True) -> dict:
 		"reminders": {**DEFAULT_REMINDERS, **(reminders or {})},
 	}
 	if with_program:
+		from lift_log.ai.client import ai_status
+
 		out["program"] = get_definition(doc.active_program)
 		out["exercises"] = exercise_library()
+		out["ai"] = ai_status(doc)
 	return out
 
 
