@@ -1,5 +1,3 @@
-import calendar
-
 import frappe
 from frappe import _
 from frappe.utils import cint, flt
@@ -13,6 +11,7 @@ from lift_log.api.utils import (
 	now_utc,
 	opt_number,
 	parse_date,
+	parse_month,
 	parse_utc,
 	program_and_definition,
 	session_dict,
@@ -167,33 +166,32 @@ def history(exercise: str, limit: int = 6) -> list[dict]:
 
 @frappe.whitelist(methods=["GET"])
 def month(month: str) -> list[dict]:
-	"""Sessions in a calendar month (YYYY-MM) for the History calendar."""
+	"""Sessions in a calendar month (YYYY-MM) for the History calendar and the Train week,
+	each with its key lift."""
+	from lift_log.api.today import key_lift
+	from lift_log.program import main_exercises, routine_for
+
 	user = current_user()
-	try:
-		year, mon = (int(part) for part in month.split("-"))
-		first = parse_date(f"{year:04d}-{mon:02d}-01")
-	except (ValueError, AttributeError):
-		frappe.throw(_("Invalid month: {0}. Use YYYY-MM.").format(month))
-	last = first.replace(day=calendar.monthrange(year, mon)[1])
-	rows = frappe.db.sql(
-		"""
-		select s.session_date, s.routine_key, s.routine_name, s.status, count(e.name) as sets
-		from `tabLL Workout Session` s
-		left join `tabLL Set Entry` e on e.parent = s.name and e.parenttype = 'LL Workout Session'
-		where s.user = %(user)s and s.session_date between %(first)s and %(last)s
-		group by s.name, s.session_date, s.routine_key, s.routine_name, s.status
-		order by s.session_date
-		""",
-		{"user": user, "first": first, "last": last},
-		as_dict=True,
+	first, last = parse_month(month)
+	_program, definition = program_and_definition(get_profile(user))
+	names = frappe.get_all(
+		"LL Workout Session",
+		filters={"user": user, "session_date": ["between", [first, last]]},
+		order_by="session_date asc",
+		pluck="name",
 	)
-	return [
-		{
-			"date": str(r.session_date),
-			"routine_key": r.routine_key,
-			"routine_name": r.routine_name,
-			"sets": r.sets,
-			"status": r.status,
-		}
-		for r in rows
-	]
+	out = []
+	for name in names:
+		doc = frappe.get_doc("LL Workout Session", name)
+		routine = routine_for(definition, doc.session_date) if definition else None
+		out.append(
+			{
+				"date": str(doc.session_date),
+				"routine_key": doc.routine_key,
+				"routine_name": doc.routine_name,
+				"sets": len(doc.sets),
+				"status": doc.status,
+				"highlight": key_lift(doc, main_exercises(routine)),
+			}
+		)
+	return out

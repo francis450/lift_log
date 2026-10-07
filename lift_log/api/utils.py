@@ -155,7 +155,28 @@ def profile_dict(doc, with_program: bool = True) -> dict:
 	}
 	if with_program:
 		out["program"] = get_definition(doc.active_program)
+		out["exercises"] = exercise_library()
 	return out
+
+
+def exercise_library() -> dict:
+	"""Every exercise's type, weight step and form link, keyed by name (the add-weight rule needs them)."""
+	return {
+		row.name: {"type": row.exercise_type, "increment_kg": row.increment_kg, "form_url": row.form_url}
+		for row in frappe.get_all("LL Exercise", fields=["name", "exercise_type", "increment_kg", "form_url"])
+	}
+
+
+def parse_month(month: str):
+	"""'2026-10' -> (first day, last day)."""
+	import calendar
+
+	try:
+		year, mon = (int(part) for part in str(month).split("-"))
+		first = date(year, mon, 1)
+	except (ValueError, TypeError):
+		frappe.throw(_("Invalid month: {0}. Use YYYY-MM.").format(month))
+	return first, first.replace(day=calendar.monthrange(year, mon)[1])
 
 
 def set_dict(row) -> dict:

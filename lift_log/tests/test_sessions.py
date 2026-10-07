@@ -115,7 +115,13 @@ class TestSessions(LiftLogTestCase):
 	def test_month(self):
 		sessions.save(**payload())
 		out = sessions.month("2026-10")
-		self.assertEqual(out, [{"date": "2026-10-06", "routine_key": "lower", "routine_name": "Lower + Walk", "sets": 12, "status": "done"}])
+		self.assertEqual(len(out), 1)
+		self.assertEqual(
+			{k: out[0][k] for k in ("date", "routine_key", "routine_name", "sets", "status")},
+			{"date": "2026-10-06", "routine_key": "lower", "routine_name": "Lower + Walk", "sets": 12, "status": "done"},
+		)
+		self.assertEqual(out[0]["highlight"]["exercise"], "Barbell back squat")
+		self.assertEqual([s["amount"] for s in out[0]["highlight"]["sets"]], [8, 7, 7])
 		self.assertEqual(sessions.month("2026-11"), [])
 		with self.assertRaises(frappe.ValidationError):
 			sessions.month("October")

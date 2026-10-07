@@ -93,6 +93,20 @@ class TestFood(LiftLogTestCase):
 		self.assertTrue(seed.has_permission("read"))
 		self.assertFalse(seed.has_permission("write"))
 
+	def test_month_totals(self):
+		food.save_day(**payload())
+		food.save_day(food_date="2026-10-07", entries=[entry("a"), entry("b", meal="dinner")])
+		self.assertEqual(
+			food.month("2026-10"),
+			[
+				{"date": "2026-10-06", "kcal": 1645, "protein_g": 125, "entries": 6, "meals": 3},
+				{"date": "2026-10-07", "kcal": 360, "protein_g": 8, "entries": 2, "meals": 2},
+			],
+		)
+		self.assertEqual(food.month("2026-11"), [])
+		frappe.set_user(USER_B)
+		self.assertEqual(food.month("2026-10"), [])
+
 	def test_users_cannot_create_seed_items(self):
 		frappe.set_user(USER_A)
 		with self.assertRaises(frappe.PermissionError):

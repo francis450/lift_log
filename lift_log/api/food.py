@@ -15,6 +15,7 @@ from lift_log.api.utils import (
 	is_stale,
 	now_utc,
 	parse_date,
+	parse_month,
 	parse_utc,
 	user_today,
 )
@@ -55,6 +56,36 @@ def save_day(food_date: str, client_updated_at: str | None = None, entries=None)
 	doc.set("entries", [_clean_entry(e, incoming_at) for e in as_list(entries)])
 	doc.save()
 	return food_day_dict(doc)
+
+
+@frappe.whitelist(methods=["GET"])
+def month(month: str) -> list[dict]:
+	"""Food totals per logged day in a calendar month (YYYY-MM), for the History calendar."""
+	user = current_user()
+	first, last = parse_month(month)
+	rows = frappe.db.sql(
+		"""
+		select d.food_date, sum(e.qty * e.kcal_per_portion) as kcal, sum(e.qty * e.protein_per_portion) as protein,
+			count(e.name) as entries, count(distinct e.meal) as meals
+		from `tabLL Food Day` d
+		join `tabLL Food Entry` e on e.parent = d.name and e.parenttype = 'LL Food Day'
+		where d.user = %(user)s and d.food_date between %(first)s and %(last)s
+		group by d.food_date
+		order by d.food_date
+		""",
+		{"user": user, "first": first, "last": last},
+		as_dict=True,
+	)
+	return [
+		{
+			"date": str(r.food_date),
+			"kcal": round(flt(r.kcal)),
+			"protein_g": round(flt(r.protein)),
+			"entries": r.entries,
+			"meals": r.meals,
+		}
+		for r in rows
+	]
 
 
 def _clean_entry(entry: dict, default_added_at) -> dict:

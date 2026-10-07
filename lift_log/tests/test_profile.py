@@ -27,6 +27,14 @@ class TestProfile(LiftLogTestCase):
 		self.assertEqual(out["program"]["id"], "block-2-2026")
 		self.assertFalse(frappe.db.exists("LL Profile", USER_A))
 
+	def test_get_includes_exercise_library(self):
+		self.make_profile()
+		exercises = profile.get()["exercises"]
+		self.assertEqual(len(exercises), 32)
+		self.assertEqual(exercises["Barbell back squat"]["type"], "load")
+		self.assertEqual(exercises["Barbell back squat"]["increment_kg"], 2.5)
+		self.assertEqual(exercises["Plank"]["type"], "time")
+
 	def test_no_height_gives_2200_and_130(self):
 		out = self.make_profile()
 		self.assertEqual((out["kcal_target"], out["protein_target_g"]), (2200, 130))
