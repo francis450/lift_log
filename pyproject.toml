@@ -1,0 +1,19 @@
+[project]
+name = "lift_log"
+authors = [{ name = "Lift Log", email = "franciskamande2001@gmail.com" }]
+description = "Lift Log: personal gym and food log backend for Frappe"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = []
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.format]
+indent-style = "tab"

@@ -1,0 +1,182 @@
+[
+  {
+    "food_name": "Chapati",
+    "portion": "1 medium",
+    "kcal": 180,
+    "protein_g": 4
+  },
+  {
+    "food_name": "Ugali",
+    "portion": "1 fist-size piece (~150 g)",
+    "kcal": 180,
+    "protein_g": 4
+  },
+  {
+    "food_name": "Rice, cooked",
+    "portion": "1 cup",
+    "kcal": 205,
+    "protein_g": 4
+  },
+  {
+    "food_name": "Pilau",
+    "portion": "1 cup",
+    "kcal": 300,
+    "protein_g": 10
+  },
+  {
+    "food_name": "Boiled egg",
+    "portion": "1 large",
+    "kcal": 78,
+    "protein_g": 6
+  },
+  {
+    "food_name": "Fried egg",
+    "portion": "1 large",
+    "kcal": 100,
+    "protein_g": 6
+  },
+  {
+    "food_name": "Beef stew",
+    "portion": "fist-size meat (~100 g)",
+    "kcal": 250,
+    "protein_g": 25
+  },
+  {
+    "food_name": "Chicken stew",
+    "portion": "fist-size (~100 g)",
+    "kcal": 220,
+    "protein_g": 25
+  },
+  {
+    "food_name": "Nyama choma (goat)",
+    "portion": "200 g",
+    "kcal": 400,
+    "protein_g": 48
+  },
+  {
+    "food_name": "Tilapia, fried",
+    "portion": "half fish (~150 g)",
+    "kcal": 300,
+    "protein_g": 30
+  },
+  {
+    "food_name": "Omena, fried",
+    "portion": "1 small serving",
+    "kcal": 170,
+    "protein_g": 18
+  },
+  {
+    "food_name": "Beans stew",
+    "portion": "1 cup",
+    "kcal": 230,
+    "protein_g": 14
+  },
+  {
+    "food_name": "Lentils (kamande)",
+    "portion": "1 cup",
+    "kcal": 230,
+    "protein_g": 18
+  },
+  {
+    "food_name": "Ndengu (green grams)",
+    "portion": "1 cup",
+    "kcal": 210,
+    "protein_g": 14
+  },
+  {
+    "food_name": "Githeri",
+    "portion": "1 cup",
+    "kcal": 250,
+    "protein_g": 10
+  },
+  {
+    "food_name": "Mukimo",
+    "portion": "1 cup",
+    "kcal": 250,
+    "protein_g": 6
+  },
+  {
+    "food_name": "Sukuma wiki",
+    "portion": "1 cup",
+    "kcal": 80,
+    "protein_g": 3
+  },
+  {
+    "food_name": "Cabbage, cooked",
+    "portion": "1 cup",
+    "kcal": 70,
+    "protein_g": 2
+  },
+  {
+    "food_name": "Sweet potato",
+    "portion": "1 medium",
+    "kcal": 110,
+    "protein_g": 2
+  },
+  {
+    "food_name": "Chips (fries)",
+    "portion": "1 plate (~200 g)",
+    "kcal": 550,
+    "protein_g": 7
+  },
+  {
+    "food_name": "White bread",
+    "portion": "2 slices",
+    "kcal": 150,
+    "protein_g": 5
+  },
+  {
+    "food_name": "Peanut butter",
+    "portion": "1 tbsp",
+    "kcal": 95,
+    "protein_g": 4
+  },
+  {
+    "food_name": "Mandazi",
+    "portion": "1",
+    "kcal": 250,
+    "protein_g": 4
+  },
+  {
+    "food_name": "Maziwa mala",
+    "portion": "500 ml",
+    "kcal": 300,
+    "protein_g": 16
+  },
+  {
+    "food_name": "Milk, whole",
+    "portion": "1 cup (250 ml)",
+    "kcal": 150,
+    "protein_g": 8
+  },
+  {
+    "food_name": "Chai with milk and sugar",
+    "portion": "1 cup",
+    "kcal": 90,
+    "protein_g": 2
+  },
+  {
+    "food_name": "Soda",
+    "portion": "500 ml",
+    "kcal": 210,
+    "protein_g": 0
+  },
+  {
+    "food_name": "Banana",
+    "portion": "1 medium",
+    "kcal": 105,
+    "protein_g": 1
+  },
+  {
+    "food_name": "Avocado",
+    "portion": "half",
+    "kcal": 120,
+    "protein_g": 1.5
+  },
+  {
+    "food_name": "Whey protein",
+    "portion": "1 scoop (30 g)",
+    "kcal": 120,
+    "protein_g": 24
+  }
+]

@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-07 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "anthropic_api_key",
+  "ai_enabled",
+  "models_section",
+  "model_quick",
+  "model_vision",
+  "model_review",
+  "limits_section",
+  "daily_ai_calls_per_user",
+  "max_image_mb"
+ ],
+ "fields": [
+  {
+   "fieldname": "anthropic_api_key",
+   "fieldtype": "Password",
+   "label": "Anthropic API key",
+   "length": 200
+  },
+  {
+   "default": "1",
+   "fieldname": "ai_enabled",
+   "fieldtype": "Check",
+   "label": "AI features enabled"
+  },
+  {
+   "description": "Check current model names at docs.claude.com.",
+   "fieldname": "models_section",
+   "fieldtype": "Section Break",
+   "label": "Models"
+  },
+  {
+   "default": "claude-haiku-4-5-20251001",
+   "description": "Describe estimates and meal suggestions",
+   "fieldname": "model_quick",
+   "fieldtype": "Data",
+   "label": "Quick model"
+  },
+  {
+   "default": "claude-sonnet-5-5",
+   "description": "Photo estimates",
+   "fieldname": "model_vision",
+   "fieldtype": "Data",
+   "label": "Vision model"
+  },
+  {
+   "default": "claude-sonnet-5-5",
+   "description": "Weekly review and follow-ups",
+   "fieldname": "model_review",
+   "fieldtype": "Data",
+   "label": "Review model"
+  },
+  {
+   "fieldname": "limits_section",
+   "fieldtype": "Section Break",
+   "label": "Limits"
+  },
+  {
+   "default": "40",
+   "fieldname": "daily_ai_calls_per_user",
+   "fieldtype": "Int",
+   "label": "Daily AI calls per user"
+  },
+  {
+   "default": "5",
+   "fieldname": "max_image_mb",
+   "fieldtype": "Float",
+   "label": "Max image size (MB)"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-10-07 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Lift Log",
+ "name": "LL Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "if_owner": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

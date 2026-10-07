@@ -1,0 +1,2678 @@
+{
+  "id": "block-2-2026",
+  "name": "Block 2",
+  "start_date": "2026-10-05",
+  "end_date": "2026-12-27",
+  "session_time": "18:00",
+  "phases": [
+    {
+      "key": "build",
+      "name": "Build",
+      "weeks": [
+        1,
+        3
+      ]
+    },
+    {
+      "key": "deload",
+      "name": "Home deload (exam week)",
+      "weeks": [
+        4,
+        4
+      ]
+    },
+    {
+      "key": "strength",
+      "name": "Strength",
+      "weeks": [
+        5,
+        8
+      ]
+    },
+    {
+      "key": "peak",
+      "name": "Peak",
+      "weeks": [
+        9,
+        11
+      ]
+    },
+    {
+      "key": "test",
+      "name": "Test week",
+      "weeks": [
+        12,
+        12
+      ]
+    }
+  ],
+  "starting_weights_kg": {
+    "Barbell bench press": 30,
+    "Barbell back squat": 40,
+    "Conventional deadlift": 50
+  },
+  "weeks": [
+    {
+      "week": 1,
+      "phase": "build",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 4,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 3,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 8 x (1 min hard / 2 min easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 4,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 3,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 2,
+      "phase": "build",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 4,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 3,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 8 x (1 min hard / 2 min easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 4,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 3,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 3,
+      "phase": "build",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 4,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 3,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 8 x (1 min hard / 2 min easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 4,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 3,
+              "reps": "6-8",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 4,
+      "phase": "deload",
+      "days": {
+        "mon": {
+          "key": "home_deload",
+          "name": "Home deload",
+          "tag": "Home",
+          "note": "No equipment, about 25 min at an easy 7/10. 3 rounds.",
+          "items": [
+            {
+              "exercise": "Push-ups",
+              "sets": 3,
+              "reps": "10-15"
+            },
+            {
+              "exercise": "Pike push-ups",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Chair Bulgarian split squat",
+              "sets": 3,
+              "reps": "8",
+              "note": "per leg"
+            },
+            {
+              "exercise": "Glute bridge",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45"
+            },
+            {
+              "exercise": "Water bottle wrist curl",
+              "sets": 2,
+              "reps": "20"
+            }
+          ]
+        },
+        "tue": null,
+        "wed": {
+          "key": "home_deload",
+          "name": "Home deload",
+          "tag": "Home",
+          "note": "No equipment, about 25 min at an easy 7/10. 3 rounds.",
+          "items": [
+            {
+              "exercise": "Push-ups",
+              "sets": 3,
+              "reps": "10-15"
+            },
+            {
+              "exercise": "Pike push-ups",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Chair Bulgarian split squat",
+              "sets": 3,
+              "reps": "8",
+              "note": "per leg"
+            },
+            {
+              "exercise": "Glute bridge",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45"
+            },
+            {
+              "exercise": "Water bottle wrist curl",
+              "sets": 2,
+              "reps": "20"
+            }
+          ]
+        },
+        "thu": null,
+        "fri": {
+          "key": "home_deload",
+          "name": "Home deload",
+          "tag": "Home",
+          "note": "No equipment, about 25 min at an easy 7/10. 3 rounds.",
+          "items": [
+            {
+              "exercise": "Push-ups",
+              "sets": 3,
+              "reps": "10-15"
+            },
+            {
+              "exercise": "Pike push-ups",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Chair Bulgarian split squat",
+              "sets": 3,
+              "reps": "8",
+              "note": "per leg"
+            },
+            {
+              "exercise": "Glute bridge",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45"
+            },
+            {
+              "exercise": "Water bottle wrist curl",
+              "sets": 2,
+              "reps": "20"
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 5,
+      "phase": "strength",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 4,
+              "reps": "5-6",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 3,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 10 x (1 min hard / 90 s easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 4,
+              "reps": "5-6",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 3,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 6,
+      "phase": "strength",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 4,
+              "reps": "5-6",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 3,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 10 x (1 min hard / 90 s easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 4,
+              "reps": "5-6",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 3,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 7,
+      "phase": "strength",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 4,
+              "reps": "5-6",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 3,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 10 x (1 min hard / 90 s easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 4,
+              "reps": "5-6",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 3,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 8,
+      "phase": "strength",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 4,
+              "reps": "5-6",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 3,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 10 x (1 min hard / 90 s easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 4,
+              "reps": "5-6",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 3,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 9,
+      "phase": "peak",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 5,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 4,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 10 x (1 min hard / 60 s easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 5,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 4,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 10,
+      "phase": "peak",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 5,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 4,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 10 x (1 min hard / 60 s easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 5,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 4,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 11,
+      "phase": "peak",
+      "days": {
+        "mon": {
+          "key": "upper_a",
+          "name": "Upper A",
+          "tag": "Push",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 5,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Incline dumbbell press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Seated dumbbell shoulder press",
+              "sets": 3,
+              "reps": "8-10"
+            },
+            {
+              "exercise": "Lat pulldown",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell lateral raise",
+              "sets": 3,
+              "reps": "12-15"
+            },
+            {
+              "exercise": "Tricep pushdown",
+              "sets": 2,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "lower",
+          "name": "Lower + Walk",
+          "tag": "Legs",
+          "note": "Low leg volume on purpose. Finish with a 15 min incline walk (7 kph / 3%).",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 4,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Barbell Romanian deadlift",
+              "sets": 3,
+              "reps": "8"
+            },
+            {
+              "exercise": "Hip thrust",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Standing calf raise",
+              "sets": 3,
+              "reps": "15"
+            }
+          ]
+        },
+        "wed": {
+          "key": "conditioning",
+          "name": "Conditioning + Core",
+          "tag": "Cardio",
+          "note": "5 min warm-up, 10 x (1 min hard / 60 s easy), 5 min cool-down. Then core, 3 rounds, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Plank",
+              "sets": 3,
+              "reps": "45-60"
+            },
+            {
+              "exercise": "Side plank",
+              "sets": 3,
+              "reps": "30",
+              "note": "per side"
+            },
+            {
+              "exercise": "Hanging knee raise",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Cable crunch",
+              "sets": 3,
+              "reps": "12"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "upper_b",
+          "name": "Upper B",
+          "tag": "Pull",
+          "items": [
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 5,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Assisted pull-up",
+              "sets": 3,
+              "reps": "6-10",
+              "note": "reduce assistance over time"
+            },
+            {
+              "exercise": "Seated cable row",
+              "sets": 3,
+              "reps": "10"
+            },
+            {
+              "exercise": "Face pulls",
+              "sets": 3,
+              "reps": "15"
+            },
+            {
+              "exercise": "Hammer curls",
+              "sets": 3,
+              "reps": "10-12"
+            },
+            {
+              "exercise": "Dumbbell bicep curls",
+              "sets": 2,
+              "reps": "12"
+            }
+          ]
+        },
+        "fri": {
+          "key": "full_body",
+          "name": "Full Body + Grip",
+          "tag": "Full",
+          "note": "Finish with 10 min easy cardio.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 4,
+              "reps": "5",
+              "main": true
+            },
+            {
+              "exercise": "Standing overhead press",
+              "sets": 3,
+              "reps": "6-8"
+            },
+            {
+              "exercise": "One arm dumbbell row",
+              "sets": 3,
+              "reps": "10",
+              "note": "per side"
+            },
+            {
+              "exercise": "Push-ups",
+              "sets": 2,
+              "reps": "max"
+            },
+            {
+              "exercise": "Farmers carry",
+              "sets": 3,
+              "reps": "30-40",
+              "note": "heaviest you can hold"
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    },
+    {
+      "week": 12,
+      "phase": "test",
+      "days": {
+        "mon": {
+          "key": "test_bench",
+          "name": "Test: Bench",
+          "tag": "Test",
+          "note": "Work up to your heaviest clean 5.",
+          "items": [
+            {
+              "exercise": "Barbell bench press",
+              "sets": 5,
+              "reps": "5",
+              "main": true,
+              "test": true
+            }
+          ]
+        },
+        "tue": {
+          "key": "test_squat",
+          "name": "Test: Squat",
+          "tag": "Test",
+          "note": "Heaviest clean 5, then a 15 min easy walk.",
+          "items": [
+            {
+              "exercise": "Barbell back squat",
+              "sets": 5,
+              "reps": "5",
+              "main": true,
+              "test": true
+            }
+          ]
+        },
+        "wed": {
+          "key": "test_dl_row",
+          "name": "Test: Deadlift + Row",
+          "tag": "Test",
+          "note": "Heaviest clean 5 on each, then the forearm finisher.",
+          "items": [
+            {
+              "exercise": "Conventional deadlift",
+              "sets": 5,
+              "reps": "5",
+              "main": true,
+              "test": true
+            },
+            {
+              "exercise": "Bent-over barbell row",
+              "sets": 5,
+              "reps": "5",
+              "main": true,
+              "test": true
+            },
+            {
+              "exercise": "Dumbbell wrist curl",
+              "sets": 3,
+              "reps": "15-20",
+              "finisher": true
+            },
+            {
+              "exercise": "Dumbbell radial deviation",
+              "sets": 3,
+              "reps": "12-15",
+              "note": "per side",
+              "finisher": true
+            },
+            {
+              "exercise": "Cable reverse curl",
+              "sets": 3,
+              "reps": "12-15",
+              "finisher": true
+            }
+          ]
+        },
+        "thu": {
+          "key": "easy",
+          "name": "Easy (optional)",
+          "tag": "Easy",
+          "note": "Light full body or 30 min cardio. Fine to skip.",
+          "items": []
+        },
+        "fri": null,
+        "sat": null,
+        "sun": {
+          "key": "checkin",
+          "name": "Check-in",
+          "rest": true
+        }
+      }
+    }
+  ]
+}

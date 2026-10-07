@@ -1,0 +1,176 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:user",
+ "creation": "2026-10-07 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "weight_kg",
+  "height_cm",
+  "age",
+  "goal",
+  "targets_section",
+  "kcal_target",
+  "kcal_target_manual",
+  "protein_target_g",
+  "protein_target_manual",
+  "targets_note",
+  "schedule_section",
+  "session_time",
+  "training_days",
+  "time_zone",
+  "active_program",
+  "ai_enabled",
+  "reminders"
+ ],
+ "fields": [
+  {
+   "default": "__user",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "User",
+   "options": "User",
+   "read_only": 1,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "weight_kg",
+   "fieldtype": "Float",
+   "label": "Weight (kg)",
+   "precision": "1"
+  },
+  {
+   "fieldname": "height_cm",
+   "fieldtype": "Int",
+   "label": "Height (cm)"
+  },
+  {
+   "fieldname": "age",
+   "fieldtype": "Int",
+   "label": "Age"
+  },
+  {
+   "default": "Lose fat, get stronger",
+   "fieldname": "goal",
+   "fieldtype": "Select",
+   "label": "Goal",
+   "options": "Lose fat, get stronger\nBuild muscle\nMaintain"
+  },
+  {
+   "fieldname": "targets_section",
+   "fieldtype": "Section Break",
+   "label": "Targets"
+  },
+  {
+   "fieldname": "kcal_target",
+   "fieldtype": "Int",
+   "label": "Calorie target (kcal)"
+  },
+  {
+   "fieldname": "kcal_target_manual",
+   "fieldtype": "Check",
+   "label": "Calorie target set by hand"
+  },
+  {
+   "fieldname": "protein_target_g",
+   "fieldtype": "Int",
+   "label": "Protein target (g)"
+  },
+  {
+   "fieldname": "protein_target_manual",
+   "fieldtype": "Check",
+   "label": "Protein target set by hand"
+  },
+  {
+   "description": "Last automatic change. Shown once by the app, then cleared.",
+   "fieldname": "targets_note",
+   "fieldtype": "Small Text",
+   "label": "Targets note"
+  },
+  {
+   "fieldname": "schedule_section",
+   "fieldtype": "Section Break",
+   "label": "Schedule"
+  },
+  {
+   "default": "18:00:00",
+   "fieldname": "session_time",
+   "fieldtype": "Time",
+   "label": "Session Time"
+  },
+  {
+   "default": "mon,tue,wed,thu,fri",
+   "fieldname": "training_days",
+   "fieldtype": "Data",
+   "label": "Training Days"
+  },
+  {
+   "default": "Africa/Nairobi",
+   "fieldname": "time_zone",
+   "fieldtype": "Data",
+   "label": "Time Zone"
+  },
+  {
+   "fieldname": "active_program",
+   "fieldtype": "Link",
+   "label": "Active Program",
+   "options": "LL Program"
+  },
+  {
+   "default": "1",
+   "fieldname": "ai_enabled",
+   "fieldtype": "Check",
+   "label": "AI features"
+  },
+  {
+   "fieldname": "reminders",
+   "fieldtype": "JSON",
+   "label": "Reminders"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-07 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Lift Log",
+ "name": "LL Profile",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lift Log User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "user",
+ "track_changes": 1
+}

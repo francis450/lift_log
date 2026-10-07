@@ -1,0 +1,142 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-10-07 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "session_date",
+  "program",
+  "week",
+  "routine_key",
+  "routine_name",
+  "status",
+  "started_at",
+  "finished_at",
+  "note",
+  "sets",
+  "client_updated_at"
+ ],
+ "fields": [
+  {
+   "default": "__user",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "User",
+   "options": "User",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "session_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Session Date",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "options": "LL Program"
+  },
+  {
+   "fieldname": "week",
+   "fieldtype": "Int",
+   "label": "Week"
+  },
+  {
+   "fieldname": "routine_key",
+   "fieldtype": "Data",
+   "label": "Routine Key"
+  },
+  {
+   "fieldname": "routine_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Routine Name"
+  },
+  {
+   "default": "in_progress",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "in_progress\ndone"
+  },
+  {
+   "fieldname": "started_at",
+   "fieldtype": "Datetime",
+   "label": "Started at (UTC)"
+  },
+  {
+   "fieldname": "finished_at",
+   "fieldtype": "Datetime",
+   "label": "Finished at (UTC)"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "sets",
+   "fieldtype": "Table",
+   "label": "Sets",
+   "options": "LL Set Entry"
+  },
+  {
+   "fieldname": "client_updated_at",
+   "fieldtype": "Datetime",
+   "label": "Client updated at (UTC)",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-07 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Lift Log",
+ "name": "LL Workout Session",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lift Log User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "session_date",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "routine_name",
+ "track_changes": 1
+}

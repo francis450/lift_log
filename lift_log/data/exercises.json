@@ -1,0 +1,194 @@
+[
+  {
+    "name": "Barbell bench press",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Barbell+bench+press+proper+form"
+  },
+  {
+    "name": "Incline dumbbell press",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Incline+dumbbell+press+proper+form"
+  },
+  {
+    "name": "Seated dumbbell shoulder press",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Seated+dumbbell+shoulder+press+proper+form"
+  },
+  {
+    "name": "Lat pulldown",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Lat+pulldown+proper+form"
+  },
+  {
+    "name": "Dumbbell lateral raise",
+    "type": "load",
+    "increment_kg": 1,
+    "form_url": "https://www.youtube.com/results?search_query=Dumbbell+lateral+raise+proper+form"
+  },
+  {
+    "name": "Tricep pushdown",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Tricep+pushdown+proper+form"
+  },
+  {
+    "name": "Barbell back squat",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Barbell+back+squat+proper+form"
+  },
+  {
+    "name": "Barbell Romanian deadlift",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Barbell+Romanian+deadlift+proper+form"
+  },
+  {
+    "name": "Hip thrust",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Hip+thrust+proper+form"
+  },
+  {
+    "name": "Standing calf raise",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Standing+calf+raise+proper+form"
+  },
+  {
+    "name": "Plank",
+    "type": "time",
+    "increment_kg": 0,
+    "form_url": "https://www.youtube.com/results?search_query=Plank+proper+form"
+  },
+  {
+    "name": "Side plank",
+    "type": "time",
+    "increment_kg": 0,
+    "form_url": "https://www.youtube.com/results?search_query=Side+plank+proper+form"
+  },
+  {
+    "name": "Hanging knee raise",
+    "type": "bodyweight",
+    "increment_kg": 0,
+    "form_url": "https://www.youtube.com/results?search_query=Hanging+knee+raise+proper+form"
+  },
+  {
+    "name": "Cable crunch",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Cable+crunch+proper+form"
+  },
+  {
+    "name": "Bent-over barbell row",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Bent-over+barbell+row+proper+form"
+  },
+  {
+    "name": "Assisted pull-up",
+    "type": "bodyweight",
+    "increment_kg": 0,
+    "form_url": "https://www.youtube.com/results?search_query=Assisted+pull-up+proper+form"
+  },
+  {
+    "name": "Seated cable row",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Seated+cable+row+proper+form"
+  },
+  {
+    "name": "Face pulls",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Face+pulls+proper+form"
+  },
+  {
+    "name": "Hammer curls",
+    "type": "load",
+    "increment_kg": 1,
+    "form_url": "https://www.youtube.com/results?search_query=Hammer+curls+proper+form"
+  },
+  {
+    "name": "Dumbbell bicep curls",
+    "type": "load",
+    "increment_kg": 1,
+    "form_url": "https://www.youtube.com/results?search_query=Dumbbell+bicep+curls+proper+form"
+  },
+  {
+    "name": "Conventional deadlift",
+    "type": "load",
+    "increment_kg": 5,
+    "form_url": "https://www.youtube.com/results?search_query=Conventional+deadlift+proper+form"
+  },
+  {
+    "name": "Standing overhead press",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Standing+overhead+press+proper+form"
+  },
+  {
+    "name": "One arm dumbbell row",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=One+arm+dumbbell+row+proper+form"
+  },
+  {
+    "name": "Push-ups",
+    "type": "bodyweight",
+    "increment_kg": 0,
+    "form_url": "https://www.youtube.com/results?search_query=Push-ups+proper+form"
+  },
+  {
+    "name": "Farmers carry",
+    "type": "distance",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Farmers+carry+proper+form"
+  },
+  {
+    "name": "Dumbbell wrist curl",
+    "type": "load",
+    "increment_kg": 1,
+    "form_url": "https://www.youtube.com/results?search_query=Dumbbell+wrist+curl+proper+form"
+  },
+  {
+    "name": "Dumbbell radial deviation",
+    "type": "load",
+    "increment_kg": 1,
+    "form_url": "https://www.youtube.com/results?search_query=Dumbbell+radial+deviation+proper+form"
+  },
+  {
+    "name": "Cable reverse curl",
+    "type": "load",
+    "increment_kg": 2.5,
+    "form_url": "https://www.youtube.com/results?search_query=Cable+reverse+curl+proper+form"
+  },
+  {
+    "name": "Pike push-ups",
+    "type": "bodyweight",
+    "increment_kg": 0,
+    "form_url": "https://www.youtube.com/results?search_query=Pike+push-ups+proper+form"
+  },
+  {
+    "name": "Chair Bulgarian split squat",
+    "type": "bodyweight",
+    "increment_kg": 0,
+    "form_url": "https://www.youtube.com/results?search_query=Chair+Bulgarian+split+squat+proper+form"
+  },
+  {
+    "name": "Glute bridge",
+    "type": "bodyweight",
+    "increment_kg": 0,
+    "form_url": "https://www.youtube.com/results?search_query=Glute+bridge+proper+form"
+  },
+  {
+    "name": "Water bottle wrist curl",
+    "type": "bodyweight",
+    "increment_kg": 0,
+    "form_url": "https://www.youtube.com/results?search_query=Water+bottle+wrist+curl+proper+form"
+  }
+]

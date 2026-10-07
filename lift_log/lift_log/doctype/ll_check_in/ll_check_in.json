@@ -1,0 +1,129 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-10-07 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "checkin_date",
+  "program",
+  "week",
+  "weight_kg",
+  "waist_cm",
+  "forearm_cm",
+  "sleep",
+  "energy",
+  "photo"
+ ],
+ "fields": [
+  {
+   "default": "__user",
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "User",
+   "options": "User",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "checkin_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Checkin Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "options": "LL Program"
+  },
+  {
+   "fieldname": "week",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Week"
+  },
+  {
+   "fieldname": "weight_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Weight (kg)",
+   "precision": "1"
+  },
+  {
+   "fieldname": "waist_cm",
+   "fieldtype": "Float",
+   "label": "Waist (cm)",
+   "precision": "1"
+  },
+  {
+   "fieldname": "forearm_cm",
+   "fieldtype": "Float",
+   "label": "Forearm (cm)",
+   "precision": "1"
+  },
+  {
+   "description": "1 to 5",
+   "fieldname": "sleep",
+   "fieldtype": "Int",
+   "label": "Sleep"
+  },
+  {
+   "description": "1 to 5",
+   "fieldname": "energy",
+   "fieldtype": "Int",
+   "label": "Gym energy"
+  },
+  {
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Progress photo"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-07 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Lift Log",
+ "name": "LL Check In",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lift Log User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "checkin_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

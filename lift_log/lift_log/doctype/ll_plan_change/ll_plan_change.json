@@ -1,0 +1,71 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-07 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "change_type",
+  "title",
+  "why",
+  "exercise",
+  "delta_kg",
+  "applies_from_week",
+  "accepted"
+ ],
+ "fields": [
+  {
+   "fieldname": "change_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Change Type",
+   "options": "weight\nnutrition\nschedule\nother"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title"
+  },
+  {
+   "fieldname": "why",
+   "fieldtype": "Small Text",
+   "label": "Why"
+  },
+  {
+   "fieldname": "exercise",
+   "fieldtype": "Link",
+   "label": "Exercise",
+   "options": "LL Exercise"
+  },
+  {
+   "fieldname": "delta_kg",
+   "fieldtype": "Float",
+   "label": "Delta (kg)"
+  },
+  {
+   "fieldname": "applies_from_week",
+   "fieldtype": "Int",
+   "label": "Applies From Week"
+  },
+  {
+   "fieldname": "accepted",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Accepted"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-10-07 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Lift Log",
+ "name": "LL Plan Change",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
