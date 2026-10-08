@@ -1,23 +1,26 @@
-"""AI endpoints (docs/05). Estimates and suggestions are live; the weekly review arrives in M7 (HTTP 501)."""
+"""AI endpoints (docs/05): estimates, suggestions and the weekly review."""
 
 import base64
 import binascii
+import json
 from datetime import timedelta
 
 import frappe
 from frappe import _
-from frappe.utils import flt
+from frappe.utils import cint, flt
 
-from lift_log.ai import prompts
-from lift_log.ai.client import AIError, check_allowed, clean_items, complete_json, settings
+from lift_log.ai import prompts, review
+from lift_log.ai.client import AIError, check_allowed, clean_items, complete, complete_json, settings
 from lift_log.api.utils import (
 	current_user,
 	day_totals,
 	food_day_name,
 	format_time,
 	get_profile,
+	now_utc,
 	parse_date,
 	program_and_definition,
+	review_dict,
 	targets_of,
 	user_today,
 )
@@ -28,10 +31,6 @@ QUICK_TIMEOUT = 30
 IMAGE_TYPES = ("image/jpeg", "image/png", "image/webp", "image/gif")
 MEALS = ("breakfast", "lunch", "dinner", "snacks")
 USUAL_FALLBACK = "chapati, rice, beef stew, chicken, lentils, beans, eggs"
-
-
-class AINotBuilt(frappe.ValidationError):
-	http_status_code = 501
 
 
 @frappe.whitelist(methods=["POST"])
@@ -167,21 +166,136 @@ def suggest_context(user: str, profile, day, meal: str | None) -> dict:
 	}
 
 
-def _not_built():
-	current_user()
-	frappe.throw(_("The weekly review isn't available yet."), AINotBuilt)
+REVIEW_TIMEOUT = 90
+
+
+def _review_doc(user: str, program: str, week: int):
+	name = frappe.db.get_value("LL Weekly Review", {"user": user, "program": program, "week": week}, "name")
+	return frappe.get_doc("LL Weekly Review", name) if name else None
+
+
+@frappe.whitelist(methods=["GET"])
+def review_stats(week: int) -> dict:
+	"""The week's numbers without Claude: the app shows the four stat tiles from these while the review runs."""
+	user = current_user()
+	return review.build_stats(user, get_profile(user), cint(week))
 
 
 @frappe.whitelist(methods=["POST"])
-def weekly_review(week: int | None = None, regenerate: bool = False):
-	_not_built()
+def weekly_review(week: int, regenerate: bool = False) -> dict:
+	"""The stored review for the week, or a new one from Claude (one per user per week; regenerate replaces it)."""
+	user = current_user()
+	profile = get_profile(user)
+	week = cint(week)
+	program, _definition = program_and_definition(profile)
+	doc = _review_doc(user, program, week)
+	if doc and not cint(regenerate) and doc.generated_at:
+		return review_dict(doc)
+
+	stats = review.build_stats(user, profile, week)
+	check_allowed(user, profile)
+	model = settings().model_review
+	data = complete_json(
+		user=user,
+		feature="review",
+		model=model,
+		content=review.review_prompt(stats),
+		timeout=REVIEW_TIMEOUT,
+		schema=review.REVIEW_SCHEMA,
+		effort="medium",
+		max_tokens=16000,
+	)
+	if not isinstance(data, dict):
+		frappe.throw(_("Couldn't read the review. Try again."), AIError)
+
+	doc = doc or frappe.new_doc("LL Weekly Review")
+	doc.update(
+		{
+			"user": user,
+			"program": program,
+			"week": week,
+			"period_start": stats["period"][0],
+			"period_end": stats["period"][1],
+			"stats": json.dumps(stats),
+			"went_well": str(data.get("went_well") or "").strip(),
+			"to_change": str(data.get("to_change") or "").strip(),
+			"model": model,
+			"generated_at": now_utc(),
+		}
+	)
+	doc.set("changes", review.clean_changes(data.get("changes"), week))
+	doc.save()
+	return review_dict(doc)
 
 
 @frappe.whitelist(methods=["POST"])
-def review_followup(week: int | None = None, question: str | None = None):
-	_not_built()
+def review_followup(week: int, question: str) -> dict:
+	"""One question about the week, answered in plain text (under 120 words). Not stored."""
+	user = current_user()
+	profile = get_profile(user)
+	question = (question or "").strip()[:500]
+	if not question:
+		frappe.throw(_("Type a question."))
+	program, _definition = program_and_definition(profile)
+	doc = _review_doc(user, program, cint(week))
+	if not doc or not doc.generated_at:
+		frappe.throw(_("Open the weekly review first."))
+	check_allowed(user, profile)
+	stored = review_dict(doc)
+	answer = complete(
+		user=user,
+		feature="review_followup",
+		model=settings().model_review,
+		content=review.followup_prompt(stored["stats"], {k: stored[k] for k in ("went_well", "to_change", "changes")}, question),
+		timeout=REVIEW_TIMEOUT,
+		effort="low",
+		max_tokens=4000,
+	)
+	if not answer:
+		frappe.throw(_("Claude didn't answer. Try again."), AIError)
+	return {"answer": answer}
 
 
 @frappe.whitelist(methods=["POST"])
-def apply_changes(week: int | None = None, accepted=None):
-	_not_built()
+def apply_changes(week: int, accepted=None) -> dict:
+	"""Mark the accepted changes (indexes into the review's changes); the rest are left unaccepted."""
+	user = current_user()
+	program, _definition = program_and_definition(get_profile(user))
+	doc = _review_doc(user, program, cint(week))
+	if not doc:
+		frappe.throw(_("There's no review for week {0} yet.").format(week))
+	if isinstance(accepted, str):
+		accepted = json.loads(accepted or "[]")
+	chosen = {cint(i) for i in accepted or []}
+	for i, change in enumerate(doc.changes):
+		change.accepted = 1 if i in chosen else 0
+	doc.save()
+	return review_dict(doc)
+
+
+@frappe.whitelist(methods=["GET"])
+def plan_changes(week: int) -> list[dict]:
+	"""Accepted changes that apply to this week. The app adds weight changes' delta_kg to its suggestions."""
+	user = current_user()
+	program, _definition = program_and_definition(get_profile(user))
+	rows = frappe.db.sql(
+		"""
+		select c.change_type, c.title, c.why, c.exercise, c.delta_kg
+		from `tabLL Plan Change` c
+		join `tabLL Weekly Review` r on c.parent = r.name and c.parenttype = 'LL Weekly Review'
+		where r.user = %(user)s and r.program = %(program)s and c.accepted = 1 and c.applies_from_week = %(week)s
+		order by r.week, c.idx
+		""",
+		{"user": user, "program": program, "week": cint(week)},
+		as_dict=True,
+	)
+	return [
+		{
+			"change_type": r.change_type,
+			"title": r.title,
+			"why": r.why or "",
+			"exercise": r.exercise,
+			"delta_kg": r.delta_kg or None,
+		}
+		for r in rows
+	]

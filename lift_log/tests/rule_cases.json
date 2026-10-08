@@ -1,0 +1,197 @@
+{
+  "_about": "Shared test table for the add-weight rule (docs/01). The mobile nextCall() and the server's Python port (M7) both run every case. Sets are [kg, amount, effort]. History is newest first.",
+  "exercises": {
+    "squat": { "name": "Barbell back squat", "type": "load", "increment_kg": 2.5 },
+    "rdl": { "name": "Barbell Romanian deadlift", "type": "load", "increment_kg": 2.5 },
+    "hip": { "name": "Hip thrust", "type": "load", "increment_kg": 2.5 },
+    "deadlift": { "name": "Conventional deadlift", "type": "load", "increment_kg": 5 },
+    "pushups": { "name": "Push-ups", "type": "bodyweight", "increment_kg": 0 },
+    "plank": { "name": "Plank", "type": "time", "increment_kg": 0 },
+    "farmers": { "name": "Farmers carry", "type": "distance", "increment_kg": 2.5 }
+  },
+  "cases": [
+    {
+      "name": "test routine: work up past the best logged weight",
+      "exercise": "squat", "target": { "sets": 5, "reps": "5", "test": true },
+      "history": [{ "date": "2026-12-15", "sets": [[60, 5, null], [60, 5, null]] }, { "date": "2026-12-08", "sets": [[62.5, 3, "hard"]] }],
+      "expect": { "call": "test", "kg": 62.5, "reason": "Work up past 62.5 kg if it moves well" }
+    },
+    {
+      "name": "test routine with no history",
+      "exercise": "deadlift", "target": { "sets": 5, "reps": "5", "test": true },
+      "history": [],
+      "expect": { "call": "test", "reason": "Work up to your heaviest clean 5" }
+    },
+    {
+      "name": "bodyweight exercise: beat last time",
+      "exercise": "pushups", "target": { "sets": 3, "reps": "10-15" },
+      "history": [{ "date": "2026-10-28", "sets": [[null, 12, null], [null, 11, null], [null, 10, null]] }],
+      "expect": { "call": "bodyweight", "reason": "Beat last time: 12, 11, 10" }
+    },
+    {
+      "name": "time exercise with no history",
+      "exercise": "plank", "target": { "sets": 3, "reps": "45-60" },
+      "history": [],
+      "expect": { "call": "bodyweight", "reason": "Beat last time" }
+    },
+    {
+      "name": "max target on a load exercise",
+      "exercise": "squat", "target": { "sets": 1, "reps": "max" },
+      "history": [{ "date": "2026-10-06", "sets": [[40, 15, null]] }],
+      "expect": { "call": "bodyweight", "reason": "Beat last time: 15" }
+    },
+    {
+      "name": "first session with a starting weight",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8", "startingKg": 40 },
+      "history": [],
+      "expect": { "call": "start", "kg": 40, "reason": "Start around 40 kg" }
+    },
+    {
+      "name": "first session without a starting weight",
+      "exercise": "hip", "target": { "sets": 3, "reps": "10" },
+      "history": [],
+      "expect": { "call": "start", "reason": "Pick a weight you can do with clean form" }
+    },
+    {
+      "name": "top of the range on every work set",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [{ "date": "2026-10-13", "sets": [[40, 8, null], [40, 8, null], [40, 9, null]] }],
+      "expect": { "call": "up", "kg": 42.5, "reason": "Hit the top of the range" }
+    },
+    {
+      "name": "6 Oct squat 40 x 8, 7, 7: stay and beat your reps",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [{ "date": "2026-10-06", "sets": [[40, 8, null], [40, 7, null], [40, 7, null]] }],
+      "expect": { "call": "hold", "kg": 40, "reason": "Beat your reps" }
+    },
+    {
+      "name": "6 Oct RDL: only two work sets at the top weight, so hold",
+      "exercise": "rdl", "target": { "sets": 3, "reps": "8" },
+      "history": [{ "date": "2026-10-06", "sets": [[30, 10, null], [40, 10, null], [40, 10, null]] }],
+      "expect": { "call": "hold", "kg": 40, "reason": "Beat your reps" }
+    },
+    {
+      "name": "single-value target not reached (hip thrust 10, 8, 8)",
+      "exercise": "hip", "target": { "sets": 3, "reps": "10" },
+      "history": [{ "date": "2026-10-06", "sets": [[50, 10, null], [50, 8, null], [50, 8, null]] }],
+      "expect": { "call": "hold", "kg": 50, "reason": "Beat your reps" }
+    },
+    {
+      "name": "two easy sessions running move up early",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-20", "sets": [[40, 7, "easy"], [40, 7, "easy"], [40, 6, "easy"]] },
+        { "date": "2026-10-13", "sets": [[40, 7, "easy"], [40, 6, "easy"], [40, 6, "easy"]] }
+      ],
+      "expect": { "call": "up", "kg": 42.5, "reason": "Felt easy two sessions running" }
+    },
+    {
+      "name": "exactly two thirds easy counts",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-20", "sets": [[40, 7, "easy"], [40, 7, "easy"], [40, 6, "right"]] },
+        { "date": "2026-10-13", "sets": [[40, 7, "right"], [40, 6, "easy"], [40, 6, "easy"]] }
+      ],
+      "expect": { "call": "up", "kg": 42.5, "reason": "Felt easy two sessions running" }
+    },
+    {
+      "name": "easy sessions but one hard set: hold",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-20", "sets": [[40, 7, "easy"], [40, 7, "easy"], [40, 6, "hard"]] },
+        { "date": "2026-10-13", "sets": [[40, 7, "easy"], [40, 6, "easy"], [40, 6, "easy"]] }
+      ],
+      "expect": { "call": "hold", "kg": 40, "reason": "Beat your reps" }
+    },
+    {
+      "name": "only one easy session at this weight: hold",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-20", "sets": [[40, 7, "easy"], [40, 7, "easy"], [40, 7, "easy"]] },
+        { "date": "2026-10-13", "sets": [[37.5, 8, "easy"], [37.5, 7, "easy"], [37.5, 7, "easy"]] }
+      ],
+      "expect": { "call": "hold", "kg": 40, "reason": "Beat your reps" }
+    },
+    {
+      "name": "easy but under the bottom of the range: hold",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-20", "sets": [[40, 6, "easy"], [40, 5, "easy"], [40, 6, "easy"]] },
+        { "date": "2026-10-13", "sets": [[40, 6, "easy"], [40, 6, "easy"], [40, 6, "easy"]] }
+      ],
+      "expect": { "call": "hold", "kg": 40, "reason": "Beat your reps" }
+    },
+    {
+      "name": "two hard sessions drop a step",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-20", "sets": [[42.5, 5, "hard"], [42.5, 5, "hard"], [42.5, 6, "right"]] },
+        { "date": "2026-10-13", "sets": [[42.5, 6, "hard"], [42.5, 5, "hard"], [42.5, 4, "hard"]] }
+      ],
+      "expect": { "call": "down", "kg": 40, "reason": "Two hard sessions: drop a step and rebuild" }
+    },
+    {
+      "name": "hard sessions but reps in range: hold",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-20", "sets": [[42.5, 6, "hard"], [42.5, 6, "hard"], [42.5, 6, "hard"]] },
+        { "date": "2026-10-13", "sets": [[42.5, 6, "hard"], [42.5, 5, "hard"], [42.5, 6, "hard"]] }
+      ],
+      "expect": { "call": "hold", "kg": 42.5, "reason": "Beat your reps" }
+    },
+    {
+      "name": "a step down never goes below 0 kg",
+      "exercise": "deadlift", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-20", "sets": [[2.5, 4, "hard"], [2.5, 4, "hard"]] },
+        { "date": "2026-10-13", "sets": [[2.5, 3, "hard"], [2.5, 4, "hard"]] }
+      ],
+      "expect": { "call": "down", "kg": 0, "reason": "Two hard sessions: drop a step and rebuild" }
+    },
+    {
+      "name": "deload-week sessions are ignored for gym exercises",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-28", "deload": true, "sets": [[20, 5, "easy"]] },
+        { "date": "2026-10-20", "sets": [[40, 8, null], [40, 8, null], [40, 8, null]] }
+      ],
+      "expect": { "call": "up", "kg": 42.5, "reason": "Hit the top of the range" }
+    },
+    {
+      "name": "deload sessions still count for bodyweight moves",
+      "exercise": "pushups", "target": { "sets": 3, "reps": "10-15" },
+      "history": [
+        { "date": "2026-10-30", "deload": true, "sets": [[null, 14, null], [null, 13, null]] },
+        { "date": "2026-10-20", "sets": [[null, 10, null]] }
+      ],
+      "expect": { "call": "bodyweight", "reason": "Beat last time: 14, 13" }
+    },
+    {
+      "name": "farmers carry uses metres as reps",
+      "exercise": "farmers", "target": { "sets": 3, "reps": "30-40" },
+      "history": [{ "date": "2026-10-09", "sets": [[24, 40, null], [24, 40, null], [24, 40, null]] }],
+      "expect": { "call": "up", "kg": 26.5, "reason": "Hit the top of the range" }
+    },
+    {
+      "name": "newest session decides the working weight",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" },
+      "history": [
+        { "date": "2026-10-20", "sets": [[42.5, 6, null], [42.5, 6, null], [42.5, 5, null]] },
+        { "date": "2026-10-13", "sets": [[40, 8, null], [40, 8, null], [40, 8, null]] }
+      ],
+      "expect": { "call": "hold", "kg": 42.5, "reason": "Beat your reps" }
+    },
+    {
+      "name": "weekly review weight change added on top of a hold",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8" }, "reviewDeltaKg": 2.5,
+      "history": [{ "date": "2026-10-06", "sets": [[40, 8, null], [40, 7, null], [40, 7, null]] }],
+      "expect": { "call": "hold", "kg": 42.5, "reason": "From your weekly review" }
+    },
+    {
+      "name": "weekly review change on a first session",
+      "exercise": "squat", "target": { "sets": 3, "reps": "6-8", "startingKg": 40 }, "reviewDeltaKg": -2.5,
+      "history": [],
+      "expect": { "call": "start", "kg": 37.5, "reason": "From your weekly review" }
+    }
+  ]
+}

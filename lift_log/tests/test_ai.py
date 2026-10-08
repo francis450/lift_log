@@ -217,8 +217,3 @@ class TestSuggest(AITestCase):
 		self.assertEqual(ctx["training"], "rest day")
 		self.assertEqual(ctx["eaten"], "nothing yet")
 		self.assertEqual(ctx["usual"], "chapati, rice, beef stew, chicken, lentils, beans, eggs")
-
-	def test_review_endpoints_still_501(self):
-		with self.assertRaises(ai.AINotBuilt) as ctx:
-			ai.weekly_review(week=1)
-		self.assertEqual(ctx.exception.http_status_code, 501)
