@@ -4,6 +4,7 @@ Both implementations run the same test table (lift_log/tests/rule_cases.json, a 
 src/lib/__tests__/nextCall.cases.json). Change them together.
 """
 
+import math
 import re
 
 GYM_TYPES = ("load", "distance")
@@ -34,11 +35,63 @@ def _work(session, kg) -> list:
 	return [s for s in session["sets"] if (s.get("kg") or 0) == kg]
 
 
+def _step_up(w: float, inc: float) -> float:
+	"""The next weight the equipment has: the smallest multiple of inc above w."""
+	if inc <= 0:
+		return _r2(w)
+	return _r2((math.floor(w / inc + 1e-9) + 1) * inc)
+
+
+def _step_down(w: float, inc: float) -> float:
+	"""The largest multiple of inc below w, not below 0."""
+	if inc <= 0:
+		return _r2(w)
+	return max(_r2((math.ceil(w / inc - 1e-9) - 1) * inc), 0)
+
+
+def _snap(kg: float, inc: float) -> float:
+	"""The nearest multiple of inc (halves round up, like the app's Math.round)."""
+	return _r2(math.floor(kg / inc + 0.5) * inc) if inc > 0 else _r2(kg)
+
+
+def _big_step(w: float, inc: float) -> bool:
+	"""A step of more than 10% of the weight (dumbbells 5 -> 7.5 kg is +50%)."""
+	return w > 0 and inc > w * 0.1
+
+
+_EFFORT_RANK = {"easy": 1, "right": 2, "hard": 3}
+
+
+def weaker_side(sets: list) -> list:
+	"""Per-side sets (side L and R sharing a set_no) become one set judged on the weaker side:
+	the lower kg, the lower amount and the harder effort. Sets without a side pass through."""
+	out, by_set_no = [], {}
+	for s in sets:
+		if s.get("side") not in ("L", "R"):
+			out.append(s)
+			continue
+		pair = by_set_no.get(s.get("set_no"))
+		if pair is None:
+			pair = {"kg": s.get("kg"), "amount": s["amount"], "effort": s.get("effort")}
+			by_set_no[s.get("set_no")] = pair
+			out.append(pair)
+			continue
+		if s.get("kg") is not None:
+			pair["kg"] = s["kg"] if pair["kg"] is None else min(pair["kg"], s["kg"])
+		pair["amount"] = min(pair["amount"], s["amount"])
+		efforts = [e for e in (pair["effort"], s.get("effort")) if e]
+		pair["effort"] = max(efforts, key=_EFFORT_RANK.get) if efforts else None
+	return out
+
+
 def next_call(exercise: dict, target: dict, history: list, review_delta_kg: float = 0) -> dict:
 	"""exercise: {type, increment_kg}; target: {sets, reps, test?, startingKg?};
-	history: earlier sessions with this exercise, newest first: [{date, deload?, sets: [{kg, amount, effort}]}]."""
+	history: earlier sessions with this exercise, newest first: [{date, deload?, sets: [{kg, amount, effort, side?, set_no?}]}].
+	Per-side sets are judged on the weaker side (weaker_side)."""
 	is_gym = exercise["type"] in GYM_TYPES
-	sessions = [s for s in history if s["sets"] and not (is_gym and s.get("deload"))]
+	sessions = [
+		{**s, "sets": weaker_side(s["sets"])} for s in history if s["sets"] and not (is_gym and s.get("deload"))
+	]
 
 	# 1. Test routine.
 	if target.get("test"):
@@ -57,7 +110,8 @@ def next_call(exercise: dict, target: dict, history: list, review_delta_kg: floa
 
 	result = _weight_call(exercise, target, rng, sessions)
 	if review_delta_kg and "kg" in result:
-		return {"call": result["call"], "kg": max(_r2(result["kg"] + review_delta_kg), 0), "reason": "From your weekly review"}
+		kg = max(_snap(result["kg"] + review_delta_kg, exercise["increment_kg"]), 0)
+		return {"call": result["call"], "kg": kg, "reason": "From your weekly review"}
 	return result
 
 
@@ -76,10 +130,12 @@ def _weight_call(exercise, target, rng, sessions):
 
 	# 4. Every work set at the top of the range.
 	if len(work) >= target["sets"] and all(s["amount"] >= b for s in work):
-		return {"call": "up", "kg": _r2(w + inc), "reason": "Hit the top of the range"}
+		return {"call": "up", "kg": _step_up(w, inc), "reason": "Hit the top of the range"}
 
 	at_w = [s for s in sessions if _top(s) == w][:2]
 	if len(at_w) == 2:
+		# 5 is skipped on a big step: stay and build reps to the top of the range first.
+		big = _big_step(w, inc)
 		# 5. Felt easy two sessions running.
 		def easy(s):
 			sets = _work(s, w)
@@ -91,8 +147,8 @@ def _weight_call(exercise, target, rng, sessions):
 				and not any(x.get("effort") == "hard" for x in sets)
 			)
 
-		if all(easy(s) for s in at_w):
-			return {"call": "up", "kg": _r2(w + inc), "reason": "Felt easy two sessions running"}
+		if not big and all(easy(s) for s in at_w):
+			return {"call": "up", "kg": _step_up(w, inc), "reason": "Felt easy two sessions running"}
 
 		# 6. Struggling two sessions running.
 		def hard(s):
@@ -102,7 +158,7 @@ def _weight_call(exercise, target, rng, sessions):
 			return bool(sets) and hard_count * 2 >= len(sets) and short_count * 2 >= len(sets)
 
 		if all(hard(s) for s in at_w):
-			return {"call": "down", "kg": max(_r2(w - inc), 0), "reason": "Two hard sessions: drop a step and rebuild"}
+			return {"call": "down", "kg": _step_down(w, inc), "reason": "Two hard sessions: drop a step and rebuild"}
 
 	# 7. Otherwise hold.
 	return {"call": "hold", "kg": w, "reason": "Beat your reps"}

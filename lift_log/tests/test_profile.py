@@ -34,6 +34,13 @@ class TestProfile(LiftLogTestCase):
 		self.assertEqual(exercises["Barbell back squat"]["type"], "load")
 		self.assertEqual(exercises["Barbell back squat"]["increment_kg"], 2.5)
 		self.assertEqual(exercises["Plank"]["type"], "time")
+		# Equipment steps: dumbbells 2.5 kg logged per dumbbell, the cable stack 5 kg.
+		self.assertEqual(
+			{k: exercises["Hammer curls"][k] for k in ("equipment", "increment_kg", "pair")},
+			{"equipment": "dumbbell", "increment_kg": 2.5, "pair": True},
+		)
+		self.assertFalse(exercises["One arm dumbbell row"]["pair"])
+		self.assertEqual(exercises["Lat pulldown"]["increment_kg"], 5)
 
 	def test_no_height_gives_2200_and_130(self):
 		out = self.make_profile()

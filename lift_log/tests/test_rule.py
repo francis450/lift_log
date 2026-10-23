@@ -13,7 +13,10 @@ def _history(raw):
 		{
 			"date": s["date"],
 			"deload": s.get("deload", False),
-			"sets": [{"kg": kg, "amount": amount, "effort": effort} for kg, amount, effort in s["sets"]],
+			"sets": [
+				{"kg": kg, "amount": amount, "effort": effort, "side": side[0] if side else None, "set_no": side[1] if side else None}
+				for kg, amount, effort, *side in s["sets"]
+			],
 		}
 		for s in raw
 	]

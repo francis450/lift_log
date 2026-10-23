@@ -8,6 +8,7 @@
  "field_order": [
   "exercise",
   "set_no",
+  "side",
   "kg",
   "amount",
   "effort",
@@ -27,6 +28,14 @@
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Set"
+  },
+  {
+   "description": "Per-side exercises: each set is an L and an R row with the same set number",
+   "fieldname": "side",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Side",
+   "options": "\nL\nR"
   },
   {
    "fieldname": "kg",
@@ -58,7 +67,7 @@
  "index_web_pages_for_search": 0,
  "istable": 1,
  "links": [],
- "modified": "2026-10-07 12:00:00.000000",
+ "modified": "2026-10-23 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Lift Log",
  "name": "LL Set Entry",

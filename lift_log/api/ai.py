@@ -78,9 +78,54 @@ def estimate(text: str | None = None, image_base64: str | None = None, image_mim
 	return {"items": clean_items(data), "model": model}
 
 
+# Each main meal's share of the day. What's left is split over the meals still to come, so lunch
+# leaves room for dinner. Snacks get a small slice while dinner is still to come.
+MEAL_SHARES = {"breakfast": 25, "lunch": 35, "dinner": 40}
+SNACK_SHARE = 0.10
+# Options more than this far over the meal's budget are dropped (unless every option is).
+OVER_BUDGET = 1.2
+EXCLUDE_LIMIT = 12
+
+
+def meal_budget(
+	meal: str | None, kcal_left: float, protein_left: float, kcal: float, protein: float, logged: set[str]
+) -> dict:
+	"""The part of what's left for this meal, and what it leaves for the meals still to come."""
+	order = list(MEAL_SHARES)
+	if meal in MEAL_SHARES:
+		later = [m for m in order[order.index(meal) + 1 :] if m not in logged]
+		share = MEAL_SHARES[meal] / (MEAL_SHARES[meal] + sum(MEAL_SHARES[m] for m in later))
+		meal_kcal, meal_protein = kcal_left * share, protein_left * share
+	elif meal == "snacks" and "dinner" not in logged:
+		later = ["dinner"]
+		meal_kcal, meal_protein = min(kcal_left, kcal * SNACK_SHARE), min(protein_left, protein * SNACK_SHARE)
+	else:
+		later = []
+		meal_kcal, meal_protein = kcal_left, protein_left
+	return {
+		"kcal": round(meal_kcal),
+		"protein_g": round(meal_protein),
+		"later": " and ".join(later),
+		"later_kcal": round(kcal_left - meal_kcal),
+		"later_protein_g": round(protein_left - meal_protein),
+	}
+
+
+def _titles(exclude) -> list[str]:
+	if isinstance(exclude, str):
+		try:
+			exclude = json.loads(exclude)
+		except ValueError:
+			exclude = [exclude]
+	if not isinstance(exclude, list):
+		return []
+	titles = [str(t).strip()[:140] for t in exclude if str(t or "").strip()]
+	return titles[-EXCLUDE_LIMIT:]
+
+
 @frappe.whitelist(methods=["POST"])
-def suggest(date: str | None = None, meal: str | None = None) -> dict:
-	"""Up to 4 meal options that close the day's protein gap within the calories left."""
+def suggest(date: str | None = None, meal: str | None = None, exclude: str | list | None = None) -> dict:
+	"""Up to 4 meal options sized to this meal's share of what's left, leaving room for later meals."""
 	user = current_user()
 	profile = get_profile(user)
 	check_allowed(user, profile)
@@ -89,12 +134,14 @@ def suggest(date: str | None = None, meal: str | None = None) -> dict:
 	if meal and meal not in MEALS:
 		frappe.throw(_("Invalid meal: {0}").format(meal))
 
+	ctx = suggest_context(user, profile, day, meal)
+	ctx["exclude"] = _titles(exclude)
 	s = settings()
 	data = complete_json(
 		user=user,
 		feature="suggest",
 		model=s.model_quick,
-		content=prompts.suggest_prompt(suggest_context(user, profile, day, meal)),
+		content=prompts.suggest_prompt(ctx),
 		timeout=QUICK_TIMEOUT,
 		schema=prompts.SUGGEST_SCHEMA,
 		effort="low",
@@ -108,11 +155,16 @@ def suggest(date: str | None = None, meal: str | None = None) -> dict:
 			options.append(
 				{"title": str(option["title"]).strip()[:140], "why": str(option.get("why") or "").strip()[:300], "items": items}
 			)
-		if len(options) == 4:
-			break
+	budget = ctx["budget"]
+	within = [o for o in options if sum(i["kcal"] for i in o["items"]) <= budget["kcal"] * OVER_BUDGET]
+	options = (within or options)[:4]
 	if not options:
 		frappe.throw(_("Couldn't come up with a suggestion. Try again."), AIError)
-	return {"options": options, "model": s.model_quick}
+	return {
+		"options": options,
+		"budget": {"kcal": budget["kcal"], "protein_g": budget["protein_g"]},
+		"model": s.model_quick,
+	}
 
 
 def suggest_context(user: str, profile, day, meal: str | None) -> dict:
@@ -151,6 +203,8 @@ def suggest_context(user: str, profile, day, meal: str | None) -> dict:
 		as_dict=True,
 	)
 	days = len([d for d in ((profile and profile.training_days) or "mon,tue,wed,thu,fri").split(",") if d])
+	kcal_left = max(kcal - eaten_totals["kcal"], 0)
+	protein_left = max(protein - eaten_totals["protein_g"], 0)
 	return {
 		"weight": f"{flt(profile and profile.weight_kg) or 72:g}",
 		"days": days,
@@ -158,8 +212,9 @@ def suggest_context(user: str, profile, day, meal: str | None) -> dict:
 		"meal": meal,
 		"kcal": kcal,
 		"protein": protein,
-		"kcal_left": max(kcal - eaten_totals["kcal"], 0),
-		"protein_left": max(protein - eaten_totals["protein_g"], 0),
+		"kcal_left": kcal_left,
+		"protein_left": protein_left,
+		"budget": meal_budget(meal, kcal_left, protein_left, kcal, protein, set(by_meal)),
 		"eaten": eaten,
 		"training": training,
 		"usual": ", ".join(r.food_name for r in usual) or USUAL_FALLBACK,

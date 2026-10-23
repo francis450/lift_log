@@ -1,5 +1,5 @@
 {
-  "_about": "Shared test table for the add-weight rule (docs/01). The mobile nextCall() and the server's Python port (M7) both run every case. Sets are [kg, amount, effort]. History is newest first.",
+  "_about": "Shared test table for the add-weight rule (docs/01). The mobile nextCall() and the server's Python port (M7) both run every case. Sets are [kg, amount, effort] or, for per-side exercises, [kg, amount, effort, side, set_no]. History is newest first.",
   "exercises": {
     "squat": { "name": "Barbell back squat", "type": "load", "increment_kg": 2.5 },
     "rdl": { "name": "Barbell Romanian deadlift", "type": "load", "increment_kg": 2.5 },
@@ -7,7 +7,11 @@
     "deadlift": { "name": "Conventional deadlift", "type": "load", "increment_kg": 5 },
     "pushups": { "name": "Push-ups", "type": "bodyweight", "increment_kg": 0 },
     "plank": { "name": "Plank", "type": "time", "increment_kg": 0 },
-    "farmers": { "name": "Farmers carry", "type": "distance", "increment_kg": 2.5 }
+    "farmers": { "name": "Farmers carry", "type": "distance", "increment_kg": 2.5 },
+    "curl": { "name": "Dumbbell bicep curls", "type": "load", "increment_kg": 2.5 },
+    "crunch": { "name": "Cable crunch", "type": "load", "increment_kg": 5 },
+    "onearm": { "name": "One arm dumbbell row", "type": "load", "increment_kg": 2.5 },
+    "sideplank": { "name": "Side plank", "type": "time", "increment_kg": 0 }
   },
   "cases": [
     {
@@ -167,10 +171,10 @@
       "expect": { "call": "bodyweight", "reason": "Beat last time: 14, 13" }
     },
     {
-      "name": "farmers carry uses metres as reps",
+      "name": "farmers carry uses metres as reps; 24 kg is off the 2.5 step, so up goes to 25",
       "exercise": "farmers", "target": { "sets": 3, "reps": "30-40" },
       "history": [{ "date": "2026-10-09", "sets": [[24, 40, null], [24, 40, null], [24, 40, null]] }],
-      "expect": { "call": "up", "kg": 26.5, "reason": "Hit the top of the range" }
+      "expect": { "call": "up", "kg": 25, "reason": "Hit the top of the range" }
     },
     {
       "name": "newest session decides the working weight",
@@ -192,6 +196,60 @@
       "exercise": "squat", "target": { "sets": 3, "reps": "6-8", "startingKg": 40 }, "reviewDeltaKg": -2.5,
       "history": [],
       "expect": { "call": "start", "kg": 37.5, "reason": "From your weekly review" }
+    },
+    {
+      "name": "big step (5 to 7.5 kg is +50%): two easy sessions don't move up early",
+      "exercise": "curl", "target": { "sets": 3, "reps": "10-12" },
+      "history": [{ "date": "2026-10-22", "sets": [[5, 10, "easy"], [5, 10, "easy"], [5, 10, "easy"]] }, { "date": "2026-10-15", "sets": [[5, 10, "easy"], [5, 10, "easy"], [5, 10, "easy"]] }],
+      "expect": { "call": "hold", "kg": 5, "reason": "Beat your reps" }
+    },
+    {
+      "name": "big step: the top of the range on every set moves up one dumbbell",
+      "exercise": "curl", "target": { "sets": 3, "reps": "10-12" },
+      "history": [{ "date": "2026-10-22", "sets": [[5, 12, "right"], [5, 12, "hard"], [5, 12, "hard"]] }],
+      "expect": { "call": "up", "kg": 7.5, "reason": "Hit the top of the range" }
+    },
+    {
+      "name": "a weight off the stack's 5 kg step moves up to the next step",
+      "exercise": "crunch", "target": { "sets": 3, "reps": "10-12" },
+      "history": [{ "date": "2026-10-21", "sets": [[24, 12, "right"], [24, 12, "right"], [24, 12, "right"]] }],
+      "expect": { "call": "up", "kg": 25, "reason": "Hit the top of the range" }
+    },
+    {
+      "name": "a weight off the step drops to the step below",
+      "exercise": "crunch", "target": { "sets": 3, "reps": "10-12" },
+      "history": [{ "date": "2026-10-21", "sets": [[24, 7, "hard"], [24, 6, "hard"], [24, 6, "hard"]] }, { "date": "2026-10-14", "sets": [[24, 8, "hard"], [24, 7, "hard"], [24, 6, "hard"]] }],
+      "expect": { "call": "down", "kg": 20, "reason": "Two hard sessions: drop a step and rebuild" }
+    },
+    {
+      "name": "weekly review change lands on the nearest step",
+      "exercise": "crunch", "target": { "sets": 3, "reps": "10-12" }, "reviewDeltaKg": 5,
+      "history": [{ "date": "2026-10-21", "sets": [[24, 10, null], [24, 10, null], [24, 9, null]] }],
+      "expect": { "call": "hold", "kg": 30, "reason": "From your weekly review" }
+    },
+    {
+      "name": "per side: one side short of the top holds",
+      "exercise": "onearm", "target": { "sets": 3, "reps": "10" },
+      "history": [{ "date": "2026-10-22", "sets": [[10, 10, "right", "L", 1], [10, 10, "right", "R", 1], [10, 10, "right", "L", 2], [10, 9, "hard", "R", 2], [10, 10, "right", "L", 3], [10, 10, "right", "R", 3]] }],
+      "expect": { "call": "hold", "kg": 10, "reason": "Beat your reps" }
+    },
+    {
+      "name": "per side: both sides at the top move up",
+      "exercise": "onearm", "target": { "sets": 3, "reps": "10" },
+      "history": [{ "date": "2026-10-22", "sets": [[10, 10, "right", "L", 1], [10, 10, "right", "R", 1], [10, 10, "right", "L", 2], [10, 10, "hard", "R", 2], [10, 10, "right", "L", 3], [10, 11, "right", "R", 3]] }],
+      "expect": { "call": "up", "kg": 12.5, "reason": "Hit the top of the range" }
+    },
+    {
+      "name": "per side: the harder side's effort counts, so no early bump",
+      "exercise": "onearm", "target": { "sets": 3, "reps": "8-12" },
+      "history": [{ "date": "2026-10-22", "sets": [[30, 10, "easy", "L", 1], [30, 10, "right", "R", 1], [30, 10, "easy", "L", 2], [30, 10, "right", "R", 2], [30, 10, "easy", "L", 3], [30, 10, "right", "R", 3]] }, { "date": "2026-10-15", "sets": [[30, 10, "easy", "L", 1], [30, 10, "right", "R", 1], [30, 10, "easy", "L", 2], [30, 10, "right", "R", 2], [30, 10, "easy", "L", 3], [30, 10, "right", "R", 3]] }],
+      "expect": { "call": "hold", "kg": 30, "reason": "Beat your reps" }
+    },
+    {
+      "name": "per side time exercise: beat the weaker side's times",
+      "exercise": "sideplank", "target": { "sets": 3, "reps": "30" },
+      "history": [{ "date": "2026-10-21", "sets": [[null, 38, "hard", "L", 1], [null, 35, "hard", "R", 1], [null, 38, "hard", "L", 2], [null, 36, "hard", "R", 2]] }],
+      "expect": { "call": "bodyweight", "reason": "Beat last time: 35, 36" }
     }
   ]
 }

@@ -97,7 +97,9 @@ def _history(sessions: list, exercise: str, upto) -> list:
 		if getdate(s.session_date) > getdate(upto):
 			continue
 		sets = [
-			{"kg": (r.kg or None), "amount": r.amount, "effort": r.effort or None} for r in s.sets if r.exercise == exercise
+			{"kg": (r.kg or None), "amount": r.amount, "effort": r.effort or None, "side": r.side or None, "set_no": r.set_no}
+			for r in s.sets
+			if r.exercise == exercise
 		]
 		if sets:
 			out.append({"date": str(s.session_date), "deload": s.routine_key == "home_deload", "sets": sets})
@@ -141,7 +143,10 @@ def build_stats(user: str, profile, week: int) -> dict:
 			row = {
 				"name": name,
 				"target": f"{item['sets']} x {item['reps']}" if item else None,
-				"sets": [{"kg": r.kg or None, "reps": r.amount, "effort": r.effort or None} for r in sets],
+				"sets": [
+					{"kg": r.kg or None, "reps": r.amount, "effort": r.effort or None, **({"side": r.side} if r.side else {})}
+					for r in sets
+				],
 			}
 			if item:
 				call = rule.next_call(

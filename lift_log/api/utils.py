@@ -163,10 +163,19 @@ def profile_dict(doc, with_program: bool = True) -> dict:
 
 
 def exercise_library() -> dict:
-	"""Every exercise's type, weight step and form link, keyed by name (the add-weight rule needs them)."""
+	"""Every exercise's type, equipment, weight step and form link, keyed by name (the add-weight rule needs them).
+	`pair`: two dumbbells at once, kg logged per dumbbell."""
 	return {
-		row.name: {"type": row.exercise_type, "increment_kg": row.increment_kg, "form_url": row.form_url}
-		for row in frappe.get_all("LL Exercise", fields=["name", "exercise_type", "increment_kg", "form_url"])
+		row.name: {
+			"type": row.exercise_type,
+			"equipment": row.equipment or None,
+			"increment_kg": row.increment_kg,
+			"pair": bool(row.pair),
+			"form_url": row.form_url,
+		}
+		for row in frappe.get_all(
+			"LL Exercise", fields=["name", "exercise_type", "equipment", "increment_kg", "pair", "form_url"]
+		)
 	}
 
 
@@ -186,6 +195,7 @@ def set_dict(row) -> dict:
 	return {
 		"exercise": row.exercise,
 		"set_no": row.set_no,
+		"side": row.side or None,
 		"kg": opt_number(row.kg),
 		"amount": row.amount,
 		"effort": row.effort or None,

@@ -8,7 +8,9 @@
  "field_order": [
   "exercise_name",
   "exercise_type",
+  "equipment",
   "increment_kg",
+  "pair",
   "form_url"
  ],
  "fields": [
@@ -29,10 +31,25 @@
    "reqd": 1
   },
   {
+   "fieldname": "equipment",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Equipment",
+   "options": "\nbarbell\ndumbbell\ncable\nmachine\nbodyweight"
+  },
+  {
+   "description": "The equipment's weight step: suggested weights are always a multiple of it",
    "fieldname": "increment_kg",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Increment (kg)"
+  },
+  {
+   "default": "0",
+   "description": "Two dumbbells at once. kg is logged per dumbbell and counted twice in total lifted",
+   "fieldname": "pair",
+   "fieldtype": "Check",
+   "label": "Pair of dumbbells"
   },
   {
    "fieldname": "form_url",
@@ -42,7 +59,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-07 12:00:00.000000",
+ "modified": "2026-10-23 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Lift Log",
  "name": "LL Exercise",
