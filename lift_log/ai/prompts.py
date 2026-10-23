@@ -67,19 +67,32 @@ def estimate_prompt(text: str | None, has_image: bool) -> str:
 
 def suggest_prompt(ctx: dict) -> str:
 	meal = f"his {ctx['meal']}" if ctx.get("meal") else "the rest of today"
-	return "\n".join(
-		[
-			f"You suggest meals for a {ctx['weight']} kg man in Nairobi, Kenya, who lifts weights {ctx['days']} days a week",
-			f"and wants to {ctx['goal']}. Suggest 3 different options for {meal}",
-			"using cheap, easy-to-find Kenyan foods and home cooking.",
-			f"Targets today: {ctx['kcal']} kcal and {ctx['protein']} g protein. Remaining: {ctx['kcal_left']} kcal and",
-			f"{ctx['protein_left']} g protein. Eaten so far: {ctx['eaten']}. Training today: {ctx['training']}.",
-			f"Foods he often eats: {ctx['usual']}.",
-			"Close the protein gap without going over the remaining calories. If calories are nearly",
-			"used up, suggest lean, high-protein, low-calorie options. Keep portions realistic.",
-			"Each option lists its foods with portion, kcal and grams of protein for that portion, and",
-			"one short sentence on why it fits.",
-			"Reply with only a JSON object:",
-			'{"options":[{"title":"...","why":"...","items":[{"food_name":"...","portion":"...","kcal":0,"protein_g":0}]}]}',
+	budget = ctx.get("budget") or {}
+	lines = [
+		f"You suggest meals for a {ctx['weight']} kg man in Nairobi, Kenya, who lifts weights {ctx['days']} days a week",
+		f"and wants to {ctx['goal']}. Suggest 3 different options for {meal}",
+		"using cheap, easy-to-find Kenyan foods and home cooking.",
+		f"Targets today: {ctx['kcal']:g} kcal and {ctx['protein']:g} g protein. Remaining: {ctx['kcal_left']:g} kcal and",
+		f"{ctx['protein_left']:g} g protein. Eaten so far: {ctx['eaten']}. Training today: {ctx['training']}.",
+		f"Foods he often eats: {ctx['usual']}.",
+	]
+	if budget.get("later"):
+		lines += [
+			f"Budget for {meal}: about {budget['kcal']} kcal and {budget['protein_g']} g protein. Keep each option",
+			f"close to that budget and never more than 10% over it. The rest ({budget['later_kcal']} kcal,",
+			f"{budget['later_protein_g']} g protein) is for {budget['later']}, so don't use it up.",
 		]
-	)
+	else:
+		lines.append("Close the protein gap without going over the remaining calories.")
+	lines += [
+		"If calories are nearly used up, suggest lean, high-protein, low-calorie options. Keep portions realistic.",
+		"Each option lists its foods with portion, kcal and grams of protein for that portion, and",
+		"one short sentence on why it fits.",
+	]
+	if ctx.get("exclude"):
+		lines.append(f"He has already seen these, so suggest different meals: {'; '.join(ctx['exclude'])}.")
+	lines += [
+		"Reply with only a JSON object:",
+		'{"options":[{"title":"...","why":"...","items":[{"food_name":"...","portion":"...","kcal":0,"protein_g":0}]}]}',
+	]
+	return "\n".join(lines)

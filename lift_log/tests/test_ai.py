@@ -208,9 +208,72 @@ class TestSuggest(AITestCase):
 		self.assertIn("116 g protein. Eaten so far: breakfast: Mandazi x 2, Boiled egg x 1.", prompt)
 		self.assertIn("Training today: Conditioning + Core at 18:00.", prompt)
 		self.assertIn("Foods he often eats: Boiled egg, Mandazi.", prompt)
+		# Lunch gets 35/75 of what's left; dinner keeps the rest.
+		self.assertIn("Budget for his lunch: about 761 kcal and 54 g protein.", prompt)
+		self.assertIn("The rest (869 kcal,\n62 g protein) is for dinner", prompt)
+		self.assertNotIn("already seen", prompt)
 		self.assertEqual(len(out["options"]), 4)
 		self.assertEqual(out["options"][0]["title"], "Chicken stew, rice and ndengu")
+		self.assertEqual(out["budget"], {"kcal": 761, "protein_g": 54})
 		self.assertEqual(self.logs()[0].feature, "suggest")
+
+	def test_more_ideas_name_what_was_shown(self):
+		options = {"options": [{"title": "Githeri and eggs", "why": "", "items": ITEMS["items"][:1]}]}
+		with patch.object(client, "_create_message", return_value=reply(json.dumps(options))) as create:
+			ai.suggest(date="2026-10-07", meal="dinner", exclude=json.dumps(["Bean stew", "Ndengu and rice"]))
+		prompt = create.call_args.kwargs["params"]["messages"][0]["content"]
+		self.assertIn("He has already seen these, so suggest different meals: Bean stew; Ndengu and rice.", prompt)
+		# Dinner is the last main meal, so it gets everything left.
+		self.assertNotIn("Budget for", prompt)
+		self.assertIn("Close the protein gap without going over the remaining calories.", prompt)
+
+	def test_over_budget_options_dropped(self):
+		food.save_day(
+			food_date="2026-10-07",
+			entries=[{"client_id": "a", "meal": "breakfast", "food_name": "Pilau", "qty": 1, "kcal_per_portion": 1100, "protein_per_portion": 25}],
+		)
+		big = {"food_name": "Pilau", "portion": "2 plates", "kcal": 1000, "protein_g": 40}
+		small = {"food_name": "Chicken", "portion": "150 g", "kcal": 400, "protein_g": 45}
+		options = {
+			"options": [
+				{"title": "Big", "why": "", "items": [big]},
+				{"title": "Small", "why": "", "items": [small]},
+			]
+		}
+		with patch.object(client, "_create_message", return_value=reply(json.dumps(options))):
+			out = ai.suggest(date="2026-10-07", meal="lunch")
+		# 1100 left: lunch gets 513, so 1000 kcal is over 120% of it.
+		self.assertEqual([o["title"] for o in out["options"]], ["Small"])
+
+		only_big = {"options": [{"title": "Big", "why": "", "items": [big]}]}
+		with patch.object(client, "_create_message", return_value=reply(json.dumps(only_big))):
+			out = ai.suggest(date="2026-10-07", meal="lunch")
+		self.assertEqual([o["title"] for o in out["options"]], ["Big"])
+
+	def test_meal_budget(self):
+		budget = ai.meal_budget
+		# The example from the phone: 1102 kcal and 105 g left after breakfast.
+		self.assertEqual(
+			budget("lunch", 1102, 105, 1950, 130, {"breakfast"}),
+			{"kcal": 514, "protein_g": 49, "later": "dinner", "later_kcal": 588, "later_protein_g": 56},
+		)
+		# Nothing logged: breakfast's share of the whole day.
+		b = budget("breakfast", 2000, 140, 2000, 140, set())
+		self.assertEqual((b["kcal"], b["protein_g"], b["later"]), (500, 35, "lunch and dinner"))
+		# Lunch with breakfast skipped: breakfast is past, so it isn't counted.
+		self.assertEqual(budget("lunch", 1500, 100, 2000, 140, set())["kcal"], 700)
+		# Lunch skipped: dinner gets everything left.
+		d = budget("dinner", 900, 60, 2000, 140, {"breakfast"})
+		self.assertEqual((d["kcal"], d["protein_g"], d["later"], d["later_kcal"]), (900, 60, "", 0))
+		# Dinner already logged: lunch asked late gets everything too.
+		self.assertEqual(budget("lunch", 600, 30, 2000, 140, {"dinner"})["kcal"], 600)
+		# Snacks: a tenth of the day while dinner is to come, capped at what's left.
+		s = budget("snacks", 1200, 80, 2000, 140, {"breakfast", "lunch"})
+		self.assertEqual((s["kcal"], s["protein_g"], s["later"]), (200, 14, "dinner"))
+		self.assertEqual(budget("snacks", 150, 5, 2000, 140, set())["kcal"], 150)
+		# Snacks after dinner, and no meal: everything left.
+		self.assertEqual(budget("snacks", 300, 20, 2000, 140, {"dinner"})["kcal"], 300)
+		self.assertEqual(budget(None, 1300, 70, 2000, 140, {"breakfast"})["kcal"], 1300)
 
 	def test_rest_day_and_usual_fallback(self):
 		ctx = ai.suggest_context(USER_A, frappe.get_doc("LL Profile", USER_A), frappe.utils.getdate("2026-10-10"), None)
