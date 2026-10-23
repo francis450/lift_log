@@ -48,7 +48,10 @@ class TestSessions(LiftLogTestCase):
 			)
 		)
 		self.assertEqual(self.count(), 1)
-		self.assertEqual(out["sets"], [{"exercise": "Barbell back squat", "set_no": 1, "kg": 42.5, "amount": 6, "effort": "hard", "done": True}])
+		self.assertEqual(
+			out["sets"],
+			[{"exercise": "Barbell back squat", "set_no": 1, "side": None, "kg": 42.5, "amount": 6, "effort": "hard", "done": True}],
+		)
 
 	def test_stale_write_gets_409_with_stored_copy(self):
 		sessions.save(**payload(client_updated_at="2026-10-06T17:00:00Z", note="newer"))
@@ -111,6 +114,41 @@ class TestSessions(LiftLogTestCase):
 		self.assertEqual(len(out[1]["sets"]), 3)
 		self.assertTrue(all(len(h["sets"]) for h in out))
 		self.assertEqual(len(sessions.history("Barbell back squat", limit=1)), 1)
+
+	def test_per_side_sets_keep_side_and_set_number(self):
+		sides = [
+			{"exercise": "Side plank", "set_no": 1, "side": "L", "amount": 38, "effort": "right", "done": True},
+			{"exercise": "Side plank", "set_no": 1, "side": "r", "amount": 35, "effort": "hard", "done": True},
+			{"exercise": "Side plank", "set_no": 2, "side": "L", "amount": 37, "done": True},
+		]
+		out = sessions.save(**payload(sets=sides))
+		self.assertEqual([(s["set_no"], s["side"], s["amount"]) for s in out["sets"]], [(1, "L", 38), (1, "R", 35), (2, "L", 37)])
+		history = sessions.history("Side plank")
+		self.assertEqual([(s["set_no"], s["side"]) for s in history[0]["sets"]], [(1, "L"), (1, "R"), (2, "L")])
+		with self.assertRaises(frappe.ValidationError):
+			sessions.save(**payload(sets=[{"exercise": "Side plank", "side": "middle", "amount": 30}]))
+
+	def test_delete_removes_the_session_and_is_safe_to_repeat(self):
+		name = sessions.save(**payload())["name"]
+		self.assertEqual(sessions.delete("2026-10-06", "2026-10-06T17:00:00Z"), {"deleted": True})
+		self.assertEqual(self.count(), 0)
+		self.assertFalse(frappe.db.exists("LL Set Entry", {"parent": name}))
+		self.assertEqual(sessions.delete("2026-10-06", "2026-10-06T17:01:00Z"), {"deleted": False})
+		self.assertIsNone(self.status_code())
+
+	def test_stale_delete_gets_409_and_keeps_the_session(self):
+		sessions.save(**payload(client_updated_at="2026-10-06T17:00:00Z"))
+		out = sessions.delete("2026-10-06", "2026-10-06T16:00:00Z")
+		self.assertEqual(self.status_code(), 409)
+		self.assertEqual(out["stored"]["session_date"], "2026-10-06")
+		self.assertEqual(self.count(), 1)
+
+	def test_delete_only_touches_your_own_session(self):
+		sessions.save(**payload())
+		frappe.set_user(USER_B)
+		self.assertEqual(sessions.delete("2026-10-06"), {"deleted": False})
+		frappe.set_user(USER_A)
+		self.assertEqual(self.count(), 1)
 
 	def test_month(self):
 		sessions.save(**payload())

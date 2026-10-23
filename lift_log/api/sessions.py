@@ -20,6 +20,7 @@ from lift_log.api.utils import (
 from lift_log.program import week_for
 
 EFFORTS = ("", "easy", "right", "hard")
+SIDES = ("", "L", "R")
 STATUSES = ("in_progress", "done")
 
 
@@ -81,8 +82,26 @@ def save(
 	return session_dict(doc)
 
 
+@frappe.whitelist(methods=["POST"])
+def delete(session_date: str, client_updated_at: str | None = None) -> dict:
+	"""Cancel workout: remove the user's session for a date. Deleting one that isn't there is fine,
+	so a retried call succeeds. A delete older than the stored session gets HTTP 409 and the session."""
+	user = current_user()
+	day = parse_date(session_date, "session_date")
+	incoming_at = parse_utc(client_updated_at) or now_utc()
+	name = frappe.db.get_value("LL Workout Session", {"user": user, "session_date": day}, "name", for_update=True)
+	if not name:
+		return {"deleted": False}
+	doc = frappe.get_doc("LL Workout Session", name)
+	if is_stale(doc.client_updated_at, incoming_at):
+		return conflict(session_dict(doc))
+	# Scoped to the session user above, so the if_owner permission check isn't needed here.
+	frappe.delete_doc("LL Workout Session", name, ignore_permissions=True)
+	return {"deleted": True}
+
+
 def _clean_sets(sets: list) -> list[dict]:
-	"""Rows with no reps entered are not saved."""
+	"""Rows with no reps entered are not saved. Per-side rows carry side L or R and share a set_no."""
 	rows, per_exercise = [], {}
 	for s in sets:
 		exercise = (s.get("exercise") or "").strip()
@@ -93,11 +112,15 @@ def _clean_sets(sets: list) -> list[dict]:
 		effort = (s.get("effort") or "").lower()
 		if effort not in EFFORTS:
 			frappe.throw(_("Invalid effort: {0}").format(effort))
+		side = (s.get("side") or "").upper()
+		if side not in SIDES:
+			frappe.throw(_("Invalid side: {0}").format(side))
 		per_exercise[exercise] = per_exercise.get(exercise, 0) + 1
 		rows.append(
 			{
 				"exercise": exercise,
 				"set_no": cint(s.get("set_no")) or per_exercise[exercise],
+				"side": side,
 				"kg": flt(s.get("kg")) if s.get("kg") not in (None, "") else 0,
 				"amount": flt(s.get("amount")),
 				"effort": effort,
@@ -131,7 +154,7 @@ def history(exercise: str, limit: int = 6) -> list[dict]:
 		return []
 	sets = frappe.db.sql(
 		"""
-		select parent, set_no, kg, amount, effort, done
+		select parent, set_no, side, kg, amount, effort, done
 		from `tabLL Set Entry`
 		where parenttype = 'LL Workout Session' and exercise = %(exercise)s and parent in %(parents)s
 		order by idx
@@ -144,6 +167,7 @@ def history(exercise: str, limit: int = 6) -> list[dict]:
 		by_parent.setdefault(row.parent, []).append(
 			{
 				"set_no": row.set_no,
+				"side": row.side or None,
 				"kg": opt_number(row.kg),
 				"amount": row.amount,
 				"effort": row.effort or None,

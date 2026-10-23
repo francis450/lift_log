@@ -57,7 +57,9 @@ def load() -> dict:
 				{
 					"exercise_name": exercise["name"],
 					"exercise_type": exercise["type"],
+					"equipment": exercise.get("equipment") or "",
 					"increment_kg": exercise["increment_kg"],
+					"pair": 1 if exercise.get("pair") else 0,
 					"form_url": exercise.get("form_url"),
 				},
 			),
