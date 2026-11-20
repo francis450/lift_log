@@ -9,6 +9,7 @@
   "user",
   "food_date",
   "entries",
+  "complete",
   "client_updated_at"
  ],
  "fields": [
@@ -39,6 +40,13 @@
    "options": "LL Food Entry"
   },
   {
+   "default": "0",
+   "description": "Marked by the user when every meal of the day is logged. Only complete days count in averages.",
+   "fieldname": "complete",
+   "fieldtype": "Check",
+   "label": "Day complete"
+  },
+  {
    "fieldname": "client_updated_at",
    "fieldtype": "Datetime",
    "label": "Client updated at (UTC)",
@@ -47,7 +55,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-07 12:00:00.000000",
+ "modified": "2026-11-21 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Lift Log",
  "name": "LL Food Day",

@@ -11,7 +11,7 @@ USER_B = "ll-test-b@example.com"
 USER_NO_ROLE = "ll-test-norole@example.com"
 PASSWORD = "Lift-Log-Test-Pass-9"
 
-USER_DOCTYPES = ("LL Workout Session", "LL Food Day", "LL Check In", "LL Weekly Review", "LL Profile")
+USER_DOCTYPES = ("LL Workout Session", "LL Food Day", "LL Check In", "LL Daily Log", "LL Weekly Review", "LL Profile")
 
 # The 6 Oct 2026 session from the web-log export (docs/06).
 SESSION_6_OCT = {

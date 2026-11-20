@@ -33,14 +33,14 @@ class TestCheckins(LiftLogTestCase):
 		first = checkins.get(week=1)
 		self.assertIsNone(first["checkin"])
 		self.assertEqual(first["previous_weight_kg"], 72)
-		self.assertEqual(first["due"], {"waist": True, "forearm": True})
+		self.assertEqual(first["due"], {"waist": True, "forearm": True, "hips": True})
 
 		checkins.save(week=1, checkin_date="2026-10-11", weight_kg=71.8, waist_cm=84, forearm_cm=29.5)
 		week2 = checkins.get(week=2)
 		self.assertEqual(week2["previous_weight_kg"], 71.8)
-		self.assertEqual(week2["last_measured"], {"waist": "2026-10-11", "forearm": "2026-10-11"})
-		self.assertEqual(week2["due"], {"waist": False, "forearm": False})
-		self.assertEqual(checkins.get(week=3)["due"], {"waist": True, "forearm": True})
+		self.assertEqual(week2["last_measured"], {"waist": "2026-10-11", "forearm": "2026-10-11", "hips": None})
+		self.assertEqual(week2["due"], {"waist": False, "forearm": False, "hips": True})
+		self.assertEqual(checkins.get(week=3)["due"], {"waist": True, "forearm": True, "hips": True})
 
 	def test_validation(self):
 		with self.assertRaises(frappe.ValidationError):
@@ -87,3 +87,12 @@ class TestCheckins(LiftLogTestCase):
 		checkins.save(week=1, checkin_date="2026-10-11", weight_kg=72)
 		frappe.set_user(USER_B)
 		self.assertIsNone(checkins.get(week=1)["checkin"])
+
+	def test_hips_are_saved_and_tracked(self):
+		out = checkins.save(week=1, checkin_date="2026-10-11", weight_kg=72, waist_cm=82, hips_cm=98.5)
+		self.assertEqual(out["hips_cm"], 98.5)
+		week2 = checkins.get(week=2)
+		self.assertEqual(week2["last_measured"]["hips"], "2026-10-11")
+		self.assertFalse(week2["due"]["hips"])
+		with self.assertRaises(frappe.ValidationError):
+			checkins.save(week=1, checkin_date="2026-10-11", weight_kg=72, hips_cm=-1)

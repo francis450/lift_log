@@ -199,8 +199,15 @@ def set_dict(row) -> dict:
 		"kg": opt_number(row.kg),
 		"amount": row.amount,
 		"effort": row.effort or None,
+		"rir": opt_rir(row.rir),
+		"warmup": bool(row.is_warmup),
 		"done": bool(row.done),
 	}
+
+
+def opt_rir(value) -> int | None:
+	"""RIR is a Select of "0".."4"; blank means not rated."""
+	return None if value in (None, "") else cint(value)
 
 
 def session_dict(doc) -> dict:
@@ -227,6 +234,7 @@ def entry_dict(row) -> dict:
 		"food_name": row.food_name,
 		"portion": row.portion or "",
 		"qty": row.qty,
+		"grams": opt_number(row.grams),
 		"kcal_per_portion": row.kcal_per_portion,
 		"protein_per_portion": row.protein_per_portion,
 		"source": row.source,
@@ -238,6 +246,7 @@ def food_day_dict(doc) -> dict:
 	return {
 		"food_date": str(doc.food_date),
 		"client_updated_at": iso_utc(doc.client_updated_at),
+		"complete": bool(doc.complete),
 		"entries": [entry_dict(row) for row in doc.entries],
 	}
 
@@ -257,6 +266,7 @@ def food_item_dict(item) -> dict:
 		"portion": item.get("portion") or "",
 		"kcal": item.get("kcal"),
 		"protein_g": item.get("protein_g"),
+		"grams_per_portion": opt_number(item.get("grams_per_portion")),
 	}
 
 
@@ -269,9 +279,23 @@ def checkin_dict(doc) -> dict:
 		"weight_kg": opt_number(doc.weight_kg),
 		"waist_cm": opt_number(doc.waist_cm),
 		"forearm_cm": opt_number(doc.forearm_cm),
+		"hips_cm": opt_number(doc.hips_cm),
 		"sleep": opt_number(doc.sleep),
 		"energy": opt_number(doc.energy),
 		"photo": doc.photo or None,
+	}
+
+
+def daily_log_dict(doc) -> dict:
+	return {
+		"log_date": str(doc.log_date),
+		"weight_kg": opt_number(doc.weight_kg),
+		"sleep_hours": opt_number(doc.sleep_hours),
+		"steps": opt_number(doc.steps),
+		"pain": None if doc.pain in (None, "") else cint(doc.pain),
+		"pain_area": doc.pain_area or None,
+		"note": doc.note or "",
+		"client_updated_at": iso_utc(doc.client_updated_at),
 	}
 
 
@@ -310,6 +334,10 @@ def review_dict(doc) -> dict:
 
 def session_name(user: str, day: date) -> str | None:
 	return frappe.db.get_value("LL Workout Session", {"user": user, "session_date": day}, "name")
+
+
+def daily_log_name(user: str, day: date) -> str | None:
+	return frappe.db.get_value("LL Daily Log", {"user": user, "log_date": day}, "name")
 
 
 def food_day_name(user: str, day: date) -> str | None:

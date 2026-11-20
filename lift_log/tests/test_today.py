@@ -37,7 +37,7 @@ class TestToday(LiftLogTestCase):
 		self.assertEqual([s["amount"] for s in last["highlight"]["sets"]], [8, 7, 7])
 
 		day = today.get("2026-10-06")
-		self.assertEqual(day["food"], {"kcal": 1645, "protein_g": 125, "entries": 6})
+		self.assertEqual(day["food"], {"kcal": 1645, "protein_g": 125, "entries": 6, "complete": False})
 		self.assertEqual(day["session"]["routine_key"], "lower")
 
 	def test_deload_and_sunday_and_out_of_program(self):

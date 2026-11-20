@@ -50,7 +50,19 @@ class TestSessions(LiftLogTestCase):
 		self.assertEqual(self.count(), 1)
 		self.assertEqual(
 			out["sets"],
-			[{"exercise": "Barbell back squat", "set_no": 1, "side": None, "kg": 42.5, "amount": 6, "effort": "hard", "done": True}],
+			[
+				{
+					"exercise": "Barbell back squat",
+					"set_no": 1,
+					"side": None,
+					"kg": 42.5,
+					"amount": 6,
+					"effort": "hard",
+					"rir": None,
+					"warmup": False,
+					"done": True,
+				}
+			],
 		)
 
 	def test_stale_write_gets_409_with_stored_copy(self):
@@ -163,3 +175,28 @@ class TestSessions(LiftLogTestCase):
 		self.assertEqual(sessions.month("2026-11"), [])
 		with self.assertRaises(frappe.ValidationError):
 			sessions.month("October")
+
+	def test_rir_and_warmup_are_saved_and_in_history(self):
+		sessions.save(
+			session_date="2026-11-24",
+			status="done",
+			sets=[
+				{"exercise": "Barbell back squat", "set_no": 1, "kg": 20, "amount": 10, "warmup": True, "done": True},
+				{"exercise": "Barbell back squat", "set_no": 2, "kg": 40, "amount": 8, "rir": 2, "done": True},
+				{"exercise": "Barbell back squat", "set_no": 3, "kg": 40, "amount": 8, "rir": "0", "done": True},
+				{"exercise": "Barbell back squat", "set_no": 4, "kg": 40, "amount": 7, "done": True},
+			],
+		)
+		sets = sessions.get("2026-11-24")["sets"]
+		self.assertEqual([s["warmup"] for s in sets], [True, False, False, False])
+		self.assertEqual([s["rir"] for s in sets], [None, 2, 0, None])
+		hist = sessions.history("Barbell back squat")[0]["sets"]
+		self.assertEqual([(s["rir"], s["warmup"]) for s in hist], [(None, True), (2, False), (0, False), (None, False)])
+
+	def test_rir_out_of_range_is_rejected(self):
+		for bad in (5, -1, "lots", 1.5):
+			with self.assertRaises(frappe.ValidationError):
+				sessions.save(
+					session_date="2026-11-24",
+					sets=[{"exercise": "Barbell back squat", "kg": 40, "amount": 8, "rir": bad}],
+				)

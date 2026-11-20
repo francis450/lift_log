@@ -10,7 +10,7 @@ import frappe
 from frappe import _
 from frappe.utils import flt, getdate
 
-from lift_log import rule
+from lift_log import rule, trend
 from lift_log.api.utils import exercise_library, program_and_definition, targets_of, user_today
 from lift_log.program import is_training, main_exercises, phase_for, routine_for, week_count, week_dates
 from lift_log.targets import protein_target
@@ -46,7 +46,12 @@ REVIEW_SCHEMA = {
 
 PROMPT = """You are reviewing one week of a lifting and nutrition log for the person described in the data.
 Be direct and specific; cite numbers from the data. No generic advice.
-Effort ratings: easy = 3+ reps left, right = 1-2 left, hard = nothing left.
+Sets carry rir = reps in reserve (0 = nothing left, 4 = four or more left). Older sets carry effort
+instead: easy = 3+ reps left, right = 1-2 left, hard = nothing left. Sets marked warmup are
+warm-ups: they are not working sets and rule_call ignores them.
+food.averages_from says whether food averages use only days the person marked complete; partly
+logged days understate intake. daily holds morning weigh-ins (judge weight by the 7-day averages,
+not single days), sleep hours, steps and pain (0-10). Mention pain of 4 or more.
 Write:
 - went_well: 1-3 sentences.
 - to_change: 1-3 sentences.
@@ -97,7 +102,15 @@ def _history(sessions: list, exercise: str, upto) -> list:
 		if getdate(s.session_date) > getdate(upto):
 			continue
 		sets = [
-			{"kg": (r.kg or None), "amount": r.amount, "effort": r.effort or None, "side": r.side or None, "set_no": r.set_no}
+			{
+				"kg": (r.kg or None),
+				"amount": r.amount,
+				"effort": r.effort or None,
+				"rir": r.rir if r.rir not in (None, "") else None,
+				"warmup": bool(r.is_warmup),
+				"side": r.side or None,
+				"set_no": r.set_no,
+			}
 			for r in s.sets
 			if r.exercise == exercise
 		]
@@ -128,6 +141,8 @@ def build_stats(user: str, profile, week: int) -> dict:
 	]
 
 	effort = {"easy": 0, "right": 0, "hard": 0, "unrated": 0}
+	rir_counts = {"0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "unrated": 0}
+	warmup_sets = 0
 	items = []
 	for s in sorted(done, key=lambda s: s.session_date):
 		routine = routine_for(definition, s.session_date) or {}
@@ -135,7 +150,11 @@ def build_stats(user: str, profile, week: int) -> dict:
 		exercises: dict[str, list] = {}
 		for r in s.sets:
 			exercises.setdefault(r.exercise, []).append(r)
+			if r.is_warmup:
+				warmup_sets += 1
+				continue
 			effort[r.effort or "unrated"] += 1
+			rir_counts[str(r.rir) if r.rir not in (None, "") else "unrated"] += 1
 		rows = []
 		for name, sets in exercises.items():
 			item = targets_by_ex.get(name)
@@ -144,7 +163,14 @@ def build_stats(user: str, profile, week: int) -> dict:
 				"name": name,
 				"target": f"{item['sets']} x {item['reps']}" if item else None,
 				"sets": [
-					{"kg": r.kg or None, "reps": r.amount, "effort": r.effort or None, **({"side": r.side} if r.side else {})}
+					{
+						"kg": r.kg or None,
+						"reps": r.amount,
+						"effort": r.effort or None,
+						**({"rir": int(r.rir)} if r.rir not in (None, "") else {}),
+						**({"warmup": True} if r.is_warmup else {}),
+						**({"side": r.side} if r.side else {}),
+					}
 					for r in sets
 				],
 			}
@@ -174,18 +200,23 @@ def build_stats(user: str, profile, week: int) -> dict:
 	by_day = []
 	for d in dates:
 		name = frappe.db.get_value("LL Food Day", {"user": user, "food_date": d}, "name")
-		entries = frappe.get_doc("LL Food Day", name).entries if name else []
+		day_doc = frappe.get_doc("LL Food Day", name) if name else None
+		entries = day_doc.entries if day_doc else []
 		if entries:
 			by_day.append(
 				{
 					"date": str(d),
 					"kcal": round(sum(flt(e.qty) * flt(e.kcal_per_portion) for e in entries)),
 					"protein_g": round(sum(flt(e.qty) * flt(e.protein_per_portion) for e in entries)),
+					"complete": bool(day_doc.complete),
 				}
 			)
 		else:
-			by_day.append({"date": str(d), "kcal": None, "protein_g": None})
+			by_day.append({"date": str(d), "kcal": None, "protein_g": None, "complete": False})
 	logged = [d for d in by_day if d["kcal"] is not None]
+	complete_days = [d for d in logged if d["complete"]]
+	# Partly logged days understate intake, so once any day is marked complete only those count.
+	counted = complete_days or logged
 
 	checkin = frappe.db.get_value(
 		"LL Check In",
@@ -217,13 +248,18 @@ def build_stats(user: str, profile, week: int) -> dict:
 		"targets": {"kcal": targets["kcal"], "protein_g": protein_goal},
 		"sessions": {"planned": len(planned_days), "done": len(done), "missed": missed, "items": items},
 		"effort": effort,
+		"rir": rir_counts,
+		"warmup_sets": warmup_sets,
 		"food": {
 			"days_logged": len(logged),
-			"avg_kcal": _half_up(sum(d["kcal"] for d in logged) / len(logged)) if logged else None,
-			"avg_protein_g": _half_up(sum(d["protein_g"] for d in logged) / len(logged)) if logged else None,
+			"complete_days": len(complete_days),
+			"averages_from": "complete days" if complete_days else "all logged days",
+			"avg_kcal": _half_up(sum(d["kcal"] for d in counted) / len(counted)) if counted else None,
+			"avg_protein_g": _half_up(sum(d["protein_g"] for d in counted) / len(counted)) if counted else None,
 			"protein_days_hit": sum(1 for d in logged if d["protein_g"] >= protein_goal),
 			"by_day": by_day,
 		},
+		"daily": daily_stats(user, start, end),
 		"checkin": {
 			"weight_kg": weight,
 			"weight_change_kg": change,
@@ -234,6 +270,34 @@ def build_stats(user: str, profile, week: int) -> dict:
 		},
 		"previous_review_changes": previous_changes,
 		"goals": goals_text(profile),
+	}
+
+
+def daily_stats(user: str, start, end) -> dict:
+	"""The week's daily logs: weigh-ins and the 7-day weight trend at the week's end, sleep, steps, pain."""
+	from datetime import timedelta
+
+	rows = frappe.get_all(
+		"LL Daily Log",
+		filters={"user": user, "log_date": ["between", [start - timedelta(days=7), end]]},
+		fields=["log_date", "weight_kg", "sleep_hours", "steps", "pain", "pain_area"],
+		order_by="log_date asc",
+	)
+	week = [r for r in rows if start <= getdate(r.log_date) <= end]
+
+	def avg(field, places=1):
+		values = [flt(r.get(field)) for r in week if flt(r.get(field))]
+		return round(sum(values) / len(values), places) if values else None
+
+	pains = [(r.log_date, int(r.pain), r.pain_area) for r in week if r.pain not in (None, "")]
+	return {
+		"days_logged": len(week),
+		"weigh_ins": sum(1 for r in week if flt(r.weight_kg)),
+		"weight_trend": trend.summary({r.log_date: flt(r.weight_kg) for r in rows if flt(r.weight_kg)}, getdate(end)),
+		"avg_sleep_hours": avg("sleep_hours"),
+		"avg_steps": round(avg("steps", 0)) if avg("steps", 0) is not None else None,
+		"pain_days": [{"date": str(d), "pain": p, "area": a or None} for d, p, a in pains if p > 0],
+		"max_pain": max((p for _d, p, _a in pains), default=None),
 	}
 
 

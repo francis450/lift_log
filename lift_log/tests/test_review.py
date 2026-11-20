@@ -16,10 +16,10 @@ CLAUDE = {
 	"went_well": "Two sessions done and the squat held 40 kg for 8, 7, 7.",
 	"to_change": "Protein averaged 72 g against 130 g. Three sessions were missed.",
 	"changes": [
-		{"change_type": "weight", "title": "Squat: +2.5 kg", "why": "Easy sets", "exercise": "Barbell back squat", "delta_kg": 2.5},
+		{"change_type": "weight", "title": "Squat: +5 kg", "why": "Easy sets", "exercise": "Barbell back squat", "delta_kg": 5},
 		{"change_type": "weight", "title": "Leg press: +5 kg", "why": "x", "exercise": "Leg press", "delta_kg": 5},
-		{"change_type": "weight", "title": "RDL: +5 kg", "why": "x", "exercise": "Barbell Romanian deadlift", "delta_kg": 5},
-		{"change_type": "weight", "title": "Squat again: +2.5 kg", "why": "x", "exercise": "Barbell back squat", "delta_kg": 2.5},
+		{"change_type": "weight", "title": "RDL: +10 kg", "why": "x", "exercise": "Barbell Romanian deadlift", "delta_kg": 10},
+		{"change_type": "weight", "title": "Squat again: +5 kg", "why": "x", "exercise": "Barbell back squat", "delta_kg": 5},
 		{"change_type": "nutrition", "title": "Whey after training", "why": "+24 g protein", "exercise": "", "delta_kg": 0},
 		{"change_type": "schedule", "title": "Move a missed Monday to Saturday", "why": "Keeps 5 sessions", "exercise": "", "delta_kg": 0},
 		{"change_type": "other", "title": "Sleep by 11", "why": "Energy 2 of 5", "exercise": "", "delta_kg": 0},
@@ -80,10 +80,10 @@ class TestWeeklyReview(AITestCase):
 		self.assertEqual(out["stats"], ai.review_stats(week=1))
 		self.assertEqual(
 			[c["title"] for c in out["changes"]],
-			["Squat: +2.5 kg", "Whey after training", "Move a missed Monday to Saturday", "Sleep by 11"],
+			["Squat: +5 kg", "Whey after training", "Move a missed Monday to Saturday", "Sleep by 11"],
 		)
 		squat = out["changes"][0]
-		self.assertEqual((squat["exercise"], squat["delta_kg"], squat["applies_from_week"], squat["accepted"]), ("Barbell back squat", 2.5, 2, False))
+		self.assertEqual((squat["exercise"], squat["delta_kg"], squat["applies_from_week"], squat["accepted"]), ("Barbell back squat", 5, 2, False))
 		self.assertIsNone(out["changes"][1]["exercise"])
 		params = create.call_args.kwargs["params"]
 		self.assertEqual(params["model"], "claude-sonnet-5-5")
@@ -108,7 +108,7 @@ class TestWeeklyReview(AITestCase):
 		out = ai.apply_changes(week=1, accepted=[0, 2])
 		self.assertEqual([c["accepted"] for c in out["changes"]], [True, False, True, False])
 		plan = ai.plan_changes(week=2)
-		self.assertEqual([(p["exercise"], p["delta_kg"]) for p in plan], [("Barbell back squat", 2.5), (None, None)])
+		self.assertEqual([(p["exercise"], p["delta_kg"]) for p in plan], [("Barbell back squat", 5), (None, None)])
 		self.assertEqual(ai.plan_changes(week=3), [])
 		ai.apply_changes(week=1, accepted="[]")
 		self.assertEqual(ai.plan_changes(week=2), [])
