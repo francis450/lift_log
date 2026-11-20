@@ -3,7 +3,7 @@
     "name": "Barbell bench press",
     "type": "load",
     "equipment": "barbell",
-    "increment_kg": 2.5,
+    "increment_kg": 5,
     "form_url": "https://www.youtube.com/results?search_query=Barbell+bench+press+proper+form"
   },
   {
@@ -48,21 +48,21 @@
     "name": "Barbell back squat",
     "type": "load",
     "equipment": "barbell",
-    "increment_kg": 2.5,
+    "increment_kg": 5,
     "form_url": "https://www.youtube.com/results?search_query=Barbell+back+squat+proper+form"
   },
   {
     "name": "Barbell Romanian deadlift",
     "type": "load",
     "equipment": "barbell",
-    "increment_kg": 2.5,
+    "increment_kg": 5,
     "form_url": "https://www.youtube.com/results?search_query=Barbell+Romanian+deadlift+proper+form"
   },
   {
     "name": "Hip thrust",
     "type": "load",
     "equipment": "barbell",
-    "increment_kg": 2.5,
+    "increment_kg": 5,
     "form_url": "https://www.youtube.com/results?search_query=Hip+thrust+proper+form"
   },
   {
@@ -104,12 +104,12 @@
     "name": "Bent-over barbell row",
     "type": "load",
     "equipment": "barbell",
-    "increment_kg": 2.5,
+    "increment_kg": 5,
     "form_url": "https://www.youtube.com/results?search_query=Bent-over+barbell+row+proper+form"
   },
   {
     "name": "Assisted pull-up",
-    "type": "bodyweight",
+    "type": "assisted",
     "equipment": "machine",
     "increment_kg": 0,
     "form_url": "https://www.youtube.com/results?search_query=Assisted+pull-up+proper+form"
@@ -155,7 +155,7 @@
     "name": "Standing overhead press",
     "type": "load",
     "equipment": "barbell",
-    "increment_kg": 2.5,
+    "increment_kg": 5,
     "form_url": "https://www.youtube.com/results?search_query=Standing+overhead+press+proper+form"
   },
   {

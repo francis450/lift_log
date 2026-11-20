@@ -1,0 +1,122 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-21 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "log_date",
+  "weight_kg",
+  "sleep_hours",
+  "steps",
+  "pain",
+  "pain_area",
+  "note",
+  "client_updated_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "User",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "log_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "description": "Morning, after the toilet, before food or drink",
+   "fieldname": "weight_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Weight (kg)"
+  },
+  {
+   "description": "Hours slept last night",
+   "fieldname": "sleep_hours",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Sleep (hours)"
+  },
+  {
+   "description": "Steps from the phone, for this date",
+   "fieldname": "steps",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Steps"
+  },
+  {
+   "description": "0 = no pain, 10 = worst imaginable. Blank = not logged.",
+   "fieldname": "pain",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Pain (0-10)",
+   "options": "\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10"
+  },
+  {
+   "default": "Lower back",
+   "fieldname": "pain_area",
+   "fieldtype": "Data",
+   "label": "Pain area"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Small Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "client_updated_at",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Client updated at (UTC)"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-21 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Lift Log",
+ "name": "LL Daily Log",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lift Log User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "log_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

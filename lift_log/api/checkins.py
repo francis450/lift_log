@@ -26,7 +26,7 @@ def _resolve_week(definition: dict | None, week, fallback_day) -> int:
 @frappe.whitelist(methods=["GET"])
 def get(week: int | None = None) -> dict:
 	"""The week's check-in (or null) plus what the check-in screen prefills and flags:
-	last week's weight, and whether waist and forearm are due (last measured 14+ days ago or never)."""
+	last week's weight, and whether waist, forearm and hips are due (last measured 14+ days ago or never)."""
 	user = current_user()
 	profile = get_profile(user)
 	program, definition = program_and_definition(profile)
@@ -39,7 +39,7 @@ def get(week: int | None = None) -> dict:
 	earlier = frappe.get_all(
 		"LL Check In",
 		filters={"user": user, "program": program, "week": ["<", week]},
-		fields=["checkin_date", "weight_kg", "waist_cm", "forearm_cm"],
+		fields=["checkin_date", "weight_kg", "waist_cm", "forearm_cm", "hips_cm"],
 		order_by="week desc",
 	)
 	previous_weight = next((c.weight_kg for c in earlier if c.weight_kg), None) or (profile and profile.weight_kg)
@@ -48,7 +48,11 @@ def get(week: int | None = None) -> dict:
 		day = next((c.checkin_date for c in earlier if c.get(field)), None)
 		return str(day) if day else None
 
-	last = {"waist": last_measured("waist_cm"), "forearm": last_measured("forearm_cm")}
+	last = {
+		"waist": last_measured("waist_cm"),
+		"forearm": last_measured("forearm_cm"),
+		"hips": last_measured("hips_cm"),
+	}
 	return {
 		"week": week,
 		"checkin": checkin_dict(checkin) if checkin else None,
@@ -70,6 +74,7 @@ def save(
 	forearm_cm=None,
 	sleep=None,
 	energy=None,
+	hips_cm=None,
 ) -> dict:
 	"""Upsert the check-in for (user, program, week). The latest check-in updates the profile weight."""
 	user = current_user()
@@ -91,6 +96,7 @@ def save(
 			"weight_kg": flt(weight_kg),
 			"waist_cm": flt(waist_cm),
 			"forearm_cm": flt(forearm_cm),
+			"hips_cm": flt(hips_cm),
 			"sleep": cint(sleep),
 			"energy": cint(energy),
 		}

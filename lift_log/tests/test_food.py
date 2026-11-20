@@ -3,6 +3,7 @@ import copy
 import frappe
 
 from lift_log.api import food
+from lift_log.api.utils import user_today
 from lift_log.tests.helpers import FOOD_6_OCT, USER_A, USER_B, LiftLogTestCase
 
 
@@ -27,7 +28,7 @@ class TestFood(LiftLogTestCase):
 		self.assertEqual(out["entries"][0]["client_id"], "muwvrnngznij")
 		self.assertEqual(out["entries"][0]["added_at"], "2026-10-06T16:22:25.766Z")
 		self.assertEqual(food.get_day("2026-10-06"), out)
-		self.assertEqual(food.get_day("2026-10-08"), {"food_date": "2026-10-08", "client_updated_at": None, "entries": []})
+		self.assertEqual(food.get_day("2026-10-08"), {"food_date": "2026-10-08", "client_updated_at": None, "complete": False, "entries": []})
 
 	def test_upsert_is_idempotent(self):
 		food.save_day(**payload())
@@ -99,8 +100,8 @@ class TestFood(LiftLogTestCase):
 		self.assertEqual(
 			food.month("2026-10"),
 			[
-				{"date": "2026-10-06", "kcal": 1645, "protein_g": 125, "entries": 6, "meals": 3},
-				{"date": "2026-10-07", "kcal": 360, "protein_g": 8, "entries": 2, "meals": 2},
+				{"date": "2026-10-06", "kcal": 1645, "protein_g": 125, "entries": 6, "meals": 3, "complete": False},
+				{"date": "2026-10-07", "kcal": 360, "protein_g": 8, "entries": 2, "meals": 2, "complete": False},
 			],
 		)
 		self.assertEqual(food.month("2026-11"), [])
@@ -113,3 +114,44 @@ class TestFood(LiftLogTestCase):
 			frappe.get_doc({"doctype": "LL Food Item", "food_name": "Fake seed", "kcal": 1, "is_seed": 1}).insert()
 		doc = frappe.get_doc({"doctype": "LL Food Item", "food_name": "Mine", "kcal": 1, "user": USER_B}).insert()
 		self.assertEqual((doc.is_seed, doc.user, doc.owner), (0, USER_A, USER_A))
+
+	def test_day_complete_flag_is_kept_until_changed(self):
+		food.save_day(**payload(), complete=True)
+		self.assertTrue(food.get_day("2026-10-06")["complete"])
+		later = payload()
+		later["client_updated_at"] = "2026-10-06T20:00:00Z"
+		food.save_day(**later)
+		self.assertTrue(food.get_day("2026-10-06")["complete"])
+		later["client_updated_at"] = "2026-10-06T21:00:00Z"
+		food.save_day(**later, complete=False)
+		self.assertFalse(food.get_day("2026-10-06")["complete"])
+		self.assertFalse(food.month("2026-10")[0]["complete"])
+
+	def test_weighed_entries_keep_grams_and_teach_portion_size(self):
+		food.save_item(food_name="Ugali (home)", portion="100 g", kcal=120, protein_g=2.5, grams_per_portion=100)
+		day = str(user_today(None))
+		food.save_day(
+			food_date=day,
+			entries=[
+				{
+					"client_id": "u1",
+					"meal": "lunch",
+					"food_name": "Ugali (home)",
+					"portion": "100 g",
+					"qty": 2.35,
+					"grams": 235,
+					"kcal_per_portion": 120,
+					"protein_per_portion": 2.5,
+					"source": "custom",
+				}
+			],
+		)
+		self.assertEqual(food.get_day(day)["entries"][0]["grams"], 235)
+		found = food.search(q="Ugali (home)")
+		self.assertEqual(found["mine"][0]["grams_per_portion"], 100)
+		self.assertEqual(found["recent"][0]["grams_per_portion"], 100)
+		with self.assertRaises(frappe.ValidationError):
+			food.save_day(
+				food_date="2026-11-25",
+				entries=[{"client_id": "x", "meal": "lunch", "food_name": "Rice", "grams": -5}],
+			)

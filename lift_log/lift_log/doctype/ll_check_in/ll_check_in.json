@@ -13,6 +13,7 @@
   "weight_kg",
   "waist_cm",
   "forearm_cm",
+  "hips_cm",
   "sleep",
   "energy",
   "photo"
@@ -69,6 +70,12 @@
    "precision": "1"
   },
   {
+   "description": "Widest point of the buttocks, tape level",
+   "fieldname": "hips_cm",
+   "fieldtype": "Float",
+   "label": "Hips (cm)"
+  },
+  {
    "description": "1 to 5",
    "fieldname": "sleep",
    "fieldtype": "Int",
@@ -88,7 +95,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-07 12:00:00.000000",
+ "modified": "2026-11-21 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Lift Log",
  "name": "LL Check In",

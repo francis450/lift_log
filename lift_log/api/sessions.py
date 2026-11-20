@@ -10,6 +10,7 @@ from lift_log.api.utils import (
 	is_stale,
 	now_utc,
 	opt_number,
+	opt_rir,
 	parse_date,
 	parse_month,
 	parse_utc,
@@ -20,6 +21,7 @@ from lift_log.api.utils import (
 from lift_log.program import week_for
 
 EFFORTS = ("", "easy", "right", "hard")
+RIRS = (0, 1, 2, 3, 4)
 SIDES = ("", "L", "R")
 STATUSES = ("in_progress", "done")
 
@@ -101,7 +103,8 @@ def delete(session_date: str, client_updated_at: str | None = None) -> dict:
 
 
 def _clean_sets(sets: list) -> list[dict]:
-	"""Rows with no reps entered are not saved. Per-side rows carry side L or R and share a set_no."""
+	"""Rows with no reps entered are not saved. Per-side rows carry side L or R and share a set_no.
+	`rir` is reps in reserve, 0 to 4 or blank; `warmup` marks sets the rule and review skip."""
 	rows, per_exercise = [], {}
 	for s in sets:
 		exercise = (s.get("exercise") or "").strip()
@@ -112,6 +115,7 @@ def _clean_sets(sets: list) -> list[dict]:
 		effort = (s.get("effort") or "").lower()
 		if effort not in EFFORTS:
 			frappe.throw(_("Invalid effort: {0}").format(effort))
+		rir = _clean_rir(s.get("rir"))
 		side = (s.get("side") or "").upper()
 		if side not in SIDES:
 			frappe.throw(_("Invalid side: {0}").format(side))
@@ -124,10 +128,25 @@ def _clean_sets(sets: list) -> list[dict]:
 				"kg": flt(s.get("kg")) if s.get("kg") not in (None, "") else 0,
 				"amount": flt(s.get("amount")),
 				"effort": effort,
+				"rir": rir,
+				"is_warmup": 1 if s.get("warmup") in (True, 1, "1", "true") else 0,
 				"done": 1 if s.get("done") in (True, 1, "1", "true") else 0,
 			}
 		)
 	return rows
+
+
+def _clean_rir(value) -> str:
+	"""0..4 as the Select's string, or "" when not rated."""
+	if value in (None, ""):
+		return ""
+	try:
+		rir = int(str(value).strip())
+	except ValueError:
+		rir = None
+	if rir not in RIRS:
+		frappe.throw(_("Invalid reps in reserve: {0}. Use 0 to 4.").format(value))
+	return str(rir)
 
 
 @frappe.whitelist(methods=["GET"])
@@ -154,7 +173,7 @@ def history(exercise: str, limit: int = 6) -> list[dict]:
 		return []
 	sets = frappe.db.sql(
 		"""
-		select parent, set_no, side, kg, amount, effort, done
+		select parent, set_no, side, kg, amount, effort, rir, is_warmup, done
 		from `tabLL Set Entry`
 		where parenttype = 'LL Workout Session' and exercise = %(exercise)s and parent in %(parents)s
 		order by idx
@@ -171,6 +190,8 @@ def history(exercise: str, limit: int = 6) -> list[dict]:
 				"kg": opt_number(row.kg),
 				"amount": row.amount,
 				"effort": row.effort or None,
+				"rir": opt_rir(row.rir),
+				"warmup": bool(row.is_warmup),
 				"done": bool(row.done),
 			}
 		)

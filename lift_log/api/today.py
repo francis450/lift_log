@@ -1,7 +1,10 @@
 import frappe
 
+from lift_log import trend
 from lift_log.api.utils import (
 	current_user,
+	daily_log_dict,
+	daily_log_name,
 	day_totals,
 	food_day_name,
 	get_profile,
@@ -27,6 +30,7 @@ def get(date: str | None = None) -> dict:
 	routine = routine_for(definition, day) if definition else None
 	name = session_name(user, day)
 	food_name = food_day_name(user, day)
+	daily_name = daily_log_name(user, day)
 
 	return {
 		"date": str(day),
@@ -34,12 +38,30 @@ def get(date: str | None = None) -> dict:
 		"phase": phase_for(definition, week) if definition else None,
 		"routine": routine,
 		"session": session_dict(frappe.get_doc("LL Workout Session", name)) if name else None,
-		"food": day_totals(frappe.get_doc("LL Food Day", food_name).entries if food_name else []),
+		"food": {
+			**day_totals(frappe.get_doc("LL Food Day", food_name).entries if food_name else []),
+			"complete": bool(food_name and frappe.db.get_value("LL Food Day", food_name, "complete")),
+		},
+		"daily": daily_log_dict(frappe.get_doc("LL Daily Log", daily_name)) if daily_name else None,
+		"weight_trend": weight_trend(user, day),
 		"targets": targets_of(profile),
 		"targets_note": (profile and profile.targets_note) or None,
 		"week_strip": week_strip(user, day),
 		"last_session": last_session(user, day, definition),
 	}
+
+
+def weight_trend(user: str, day) -> dict:
+	from datetime import timedelta
+
+	from frappe.utils import flt
+
+	rows = frappe.get_all(
+		"LL Daily Log",
+		filters={"user": user, "log_date": ["between", [day - timedelta(days=13), day]], "weight_kg": [">", 0]},
+		fields=["log_date", "weight_kg"],
+	)
+	return trend.summary({r.log_date: flt(r.weight_kg) for r in rows}, day)
 
 
 def week_strip(user: str, day) -> list[dict]:

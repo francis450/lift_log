@@ -12,7 +12,7 @@ class LLCheckIn(Document):
 		for field in ("sleep", "energy"):
 			if self.get(field) and not 1 <= self.get(field) <= 5:
 				frappe.throw(_("{0} must be from 1 to 5.").format(self.meta.get_label(field)))
-		for field in ("weight_kg", "waist_cm", "forearm_cm"):
+		for field in ("weight_kg", "waist_cm", "forearm_cm", "hips_cm"):
 			if (self.get(field) or 0) < 0:
 				frappe.throw(_("{0} can't be negative.").format(self.meta.get_label(field)))
 

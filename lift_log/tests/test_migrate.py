@@ -83,8 +83,8 @@ class TestMigrateWebLog(LiftLogTestCase):
 		self.assertEqual(len(summary["custom_foods"]["skipped"]), 1)
 
 		frappe.set_user(USER_A)
-		self.assertEqual(today.get("2026-10-06")["food"], {"kcal": 1645, "protein_g": 125, "entries": 6})
-		self.assertEqual(today.get("2026-10-07")["food"], {"kcal": 720, "protein_g": 19, "entries": 3})
+		self.assertEqual(today.get("2026-10-06")["food"], {"kcal": 1645, "protein_g": 125, "entries": 6, "complete": False})
+		self.assertEqual(today.get("2026-10-07")["food"], {"kcal": 720, "protein_g": 19, "entries": 3, "complete": False})
 		session = sessions.get("2026-10-06")
 		self.assertEqual((session["routine_key"], session["status"], len(session["sets"])), ("lower", "done", 12))
 		self.assertEqual(session["finished_at"], "2026-10-06T16:14:39.133Z")

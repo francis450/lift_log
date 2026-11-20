@@ -3,6 +3,7 @@ import frappe
 from lift_log.api.utils import (
 	checkin_dict,
 	current_user,
+	daily_log_dict,
 	food_day_dict,
 	food_item_dict,
 	get_profile,
@@ -29,7 +30,7 @@ def all() -> dict:
 	custom_foods = frappe.get_all(
 		"LL Food Item",
 		filters={"is_seed": 0, "user": user},
-		fields=["name", "food_name", "portion", "kcal", "protein_g"],
+		fields=["name", "food_name", "portion", "kcal", "protein_g", "grams_per_portion"],
 		order_by="food_name asc",
 	)
 	return {
@@ -40,5 +41,6 @@ def all() -> dict:
 		"food_days": [food_day_dict(d) for d in _docs("LL Food Day", user, "food_date asc")],
 		"custom_foods": [food_item_dict(i) for i in custom_foods],
 		"checkins": [checkin_dict(d) for d in _docs("LL Check In", user, "checkin_date asc")],
+		"daily_logs": [daily_log_dict(d) for d in _docs("LL Daily Log", user, "log_date asc")],
 		"reviews": [review_dict(d) for d in _docs("LL Weekly Review", user, "week asc")],
 	}
