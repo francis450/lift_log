@@ -32,7 +32,9 @@ class TestProfile(LiftLogTestCase):
 		exercises = profile.get()["exercises"]
 		self.assertEqual(len(exercises), 32)
 		self.assertEqual(exercises["Barbell back squat"]["type"], "load")
-		self.assertEqual(exercises["Barbell back squat"]["increment_kg"], 2.5)
+		# The smallest plate is 2.5 kg, so a barbell moves 5 kg at a time (patches/v1_1/equipment_steps).
+		self.assertEqual(exercises["Barbell back squat"]["increment_kg"], 5)
+		self.assertEqual(exercises["Assisted pull-up"]["type"], "assisted")
 		self.assertEqual(exercises["Plank"]["type"], "time")
 		# Equipment steps: dumbbells 2.5 kg logged per dumbbell, the cable stack 5 kg.
 		self.assertEqual(

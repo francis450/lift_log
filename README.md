@@ -42,3 +42,18 @@ Behaviour the contract leaves open, as built:
 - **`ai.*`** answer HTTP 501 until M5/M7.
 - A stale write (`client_updated_at` older than the stored one) gets HTTP 409 with `{"stored": ...}`.
   An equal timestamp is treated as a retry and overwrites with the same content.
+
+Baseline logging (Nov 2026):
+
+- **`daily.get` / `daily.save` / `daily.recent`**: one LL Daily Log per user per day with morning weight, sleep hours,
+  steps and pain (0-10, blank = not logged). `save` keeps fields that are left out and clears fields sent as `""`, so
+  weight and steps can be saved at different times. `get` and `today.get` return a 7-day weight trend (`trend.py`):
+  the average needs 4 weigh-ins in the 7 days, and the weekly change compares two consecutive 7-day averages.
+- **Sets** take `rir` (reps in reserve, 0-4, blank = not rated) and `warmup`. The old `effort` stays for sets logged
+  before; the rule reads it as easy 3, right 1, hard 0.
+- **Food days** take `complete`; left out, the stored flag stays. The weekly review averages only complete days once
+  any day in the week is marked complete. Entries take `grams`, custom foods `grams_per_portion`.
+- **Check-ins** take `hips_cm`.
+- **Exercises**: type `assisted` logs the machine's help in kg (less is progress). Patch `v1_1.equipment_steps` sets
+  barbell steps to 5 kg (smallest plate 2.5 kg) and the assisted pull-up step to 0 until it's measured.
+

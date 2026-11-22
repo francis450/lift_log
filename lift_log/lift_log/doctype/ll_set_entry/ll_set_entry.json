@@ -12,6 +12,8 @@
   "kg",
   "amount",
   "effort",
+  "rir",
+  "is_warmup",
   "done"
  ],
  "fields": [
@@ -58,6 +60,22 @@
    "options": "\neasy\nright\nhard"
   },
   {
+   "description": "Reps in reserve: 0 = nothing left, 4 = four or more left. Replaces effort for new sets.",
+   "fieldname": "rir",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "RIR",
+   "options": "\n0\n1\n2\n3\n4"
+  },
+  {
+   "default": "0",
+   "description": "Warm-up sets are skipped by the add-weight rule, volume and the weekly review",
+   "fieldname": "is_warmup",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Warm-up"
+  },
+  {
    "fieldname": "done",
    "fieldtype": "Check",
    "in_list_view": 1,
@@ -67,7 +85,7 @@
  "index_web_pages_for_search": 0,
  "istable": 1,
  "links": [],
- "modified": "2026-10-23 12:00:00.000000",
+ "modified": "2026-11-21 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Lift Log",
  "name": "LL Set Entry",
