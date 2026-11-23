@@ -75,6 +75,7 @@ def load() -> dict:
 					"portion": food["portion"],
 					"kcal": food["kcal"],
 					"protein_g": food["protein_g"],
+					"grams_per_portion": food.get("grams_per_portion"),
 					"is_seed": 1,
 				},
 			),
