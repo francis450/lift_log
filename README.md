@@ -8,7 +8,7 @@ Frappe framework. Specs live in the handoff folder (`docs/01`–`07`).
 ```bash
 bench get-app <repo-url>
 bench --site <site> install-app lift_log
-bench --site <site> execute lift_log.setup.seed.run   # 1 program, 32 exercises, 30 foods; idempotent
+bench --site <site> execute lift_log.setup.seed.run   # 1 program, 32 exercises, 44 foods; idempotent
 ```
 
 Then give each person the **Lift Log User** role (desk: User > Roles). Sign-in refuses accounts without it.

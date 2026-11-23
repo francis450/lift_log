@@ -178,5 +178,98 @@
     "portion": "1 scoop (30 g)",
     "kcal": 120,
     "protein_g": 24
+  },
+  {
+    "food_name": "Oats, dry",
+    "portion": "40 g",
+    "kcal": 152,
+    "protein_g": 5.2,
+    "grams_per_portion": 40
+  },
+  {
+    "food_name": "Fresh milk, whole",
+    "portion": "200 ml (206 g)",
+    "kcal": 124,
+    "protein_g": 6.4,
+    "grams_per_portion": 206
+  },
+  {
+    "food_name": "Banana, peeled",
+    "portion": "1 medium (100 g)",
+    "kcal": 89,
+    "protein_g": 1.1,
+    "grams_per_portion": 100
+  },
+  {
+    "food_name": "Egg, large",
+    "portion": "1 egg (50 g shelled)",
+    "kcal": 72,
+    "protein_g": 6.3,
+    "grams_per_portion": 50
+  },
+  {
+    "food_name": "Cooking oil",
+    "portion": "1 tsp (5 g)",
+    "kcal": 44,
+    "protein_g": 0,
+    "grams_per_portion": 5
+  },
+  {
+    "food_name": "Maize flour, dry (for ugali)",
+    "portion": "60 g flour",
+    "kcal": 216,
+    "protein_g": 4.8,
+    "grams_per_portion": 60
+  },
+  {
+    "food_name": "Mala, plain",
+    "portion": "250 g",
+    "kcal": 155,
+    "protein_g": 8.5,
+    "grams_per_portion": 250
+  },
+  {
+    "food_name": "Sukuma, fried (3 g oil)",
+    "portion": "150 g raw",
+    "kcal": 91,
+    "protein_g": 5.3,
+    "grams_per_portion": 150
+  },
+  {
+    "food_name": "Cabbage, fried (3 g oil)",
+    "portion": "150 g raw",
+    "kcal": 64,
+    "protein_g": 2.0,
+    "grams_per_portion": 150
+  },
+  {
+    "food_name": "Meal prep: Rice (50 g raw, cooked)",
+    "portion": "1 container",
+    "kcal": 180,
+    "protein_g": 3.5
+  },
+  {
+    "food_name": "Meal prep: Chicken and vegetable stew",
+    "portion": "1 container (1 of 3)",
+    "kcal": 327,
+    "protein_g": 47
+  },
+  {
+    "food_name": "Meal prep: Beef and ndengu stew",
+    "portion": "1 container (1 of 4)",
+    "kcal": 436,
+    "protein_g": 42
+  },
+  {
+    "food_name": "Meal prep: Chicken pilau",
+    "portion": "1 container (1 of 3)",
+    "kcal": 569,
+    "protein_g": 49
+  },
+  {
+    "food_name": "Meal prep: Omena wet fry",
+    "portion": "1 container (1 of 3)",
+    "kcal": 313,
+    "protein_g": 40
   }
 ]
